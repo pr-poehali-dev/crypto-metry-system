@@ -44,6 +44,10 @@ const Index = () => {
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-[128px]" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary rounded-full blur-[128px]" />
       </div>
+      
+      <div className="fixed top-0 right-0 w-1/3 h-1/2 opacity-10 pointer-events-none">
+        <img src="https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/9167b33d-7e3d-4a6a-bb00-2f40d7705bb1.jpg" alt="" className="w-full h-full object-cover mix-blend-lighten" />
+      </div>
 
       <nav className="fixed top-0 w-full z-50 bg-background/60 backdrop-blur-xl border-b border-border">
         <div className="container mx-auto px-6 py-3">
@@ -225,6 +229,9 @@ const Index = () => {
       </section>
 
       <section className="py-20 px-6 relative border-t border-border">
+        <div className="absolute top-0 left-0 w-1/2 h-full opacity-5 pointer-events-none">
+          <img src="https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/a55f0b31-3b14-4e9a-97bc-2104bef12857.jpg" alt="" className="w-full h-full object-cover mix-blend-lighten" />
+        </div>
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-6xl font-black mb-4 tracking-tighter">
@@ -322,7 +329,10 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="developers" className="py-20 px-6 border-t border-border bg-card/20">
+      <section id="developers" className="py-20 px-6 border-t border-border bg-card/20 relative">
+        <div className="absolute bottom-0 right-0 w-2/5 h-3/4 opacity-8 pointer-events-none">
+          <img src="https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/621654ca-16af-469e-a494-60288e6e3ed0.jpg" alt="" className="w-full h-full object-cover mix-blend-lighten" />
+        </div>
         <div className="container mx-auto max-w-5xl space-y-8">
           <div className="inline-block px-3 py-1 border border-secondary/30 text-[10px] font-mono text-secondary mb-4">
             MODULE: DEVELOPERS
@@ -417,7 +427,10 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="media" className="py-20 px-6 border-t border-border bg-card/20">
+      <section id="media" className="py-20 px-6 border-t border-border bg-card/20 relative">
+        <div className="absolute top-1/4 left-0 w-1/3 h-1/2 opacity-8 pointer-events-none">
+          <img src="https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/9167b33d-7e3d-4a6a-bb00-2f40d7705bb1.jpg" alt="" className="w-full h-full object-cover mix-blend-lighten" />
+        </div>
         <div className="container mx-auto max-w-5xl space-y-8">
           <div className="inline-block px-3 py-1 border border-accent/30 text-[10px] font-mono text-accent mb-4">
             MODULE: MEDIA
