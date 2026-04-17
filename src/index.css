@@ -80,6 +80,48 @@
     font-family: "Inter", sans-serif;
   }
 
+  .display {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+  }
+
+  .kicker {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: hsl(var(--accent));
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.375rem 0.75rem;
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 9999px;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .magazine-rule {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      hsl(var(--accent)) 0%,
+      hsl(var(--accent)) 40px,
+      hsl(var(--border)) 40px
+    );
+  }
+
   .accent-bar {
     position: relative;
     padding-left: 1.25rem;
@@ -159,9 +201,78 @@
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(15, 20, 35, 0.75) 0%,
+      rgba(15, 20, 35, 0.8) 0%,
+      rgba(15, 20, 35, 0.25) 55%,
+      transparent 100%
+    );
+  }
+
+  .img-overlay-soft::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(15, 20, 35, 0.55) 0%,
       rgba(15, 20, 35, 0.15) 60%,
       transparent 100%
     );
+  }
+
+  .img-vignette::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      rgba(15, 20, 35, 0.55) 100%
+    );
+    pointer-events: none;
+  }
+
+  .hover-scale-img img {
+    transition: transform 0.7s ease;
+  }
+
+  .hover-scale-img:hover img {
+    transform: scale(1.05);
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 35s linear infinite;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .number-xxl {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(4rem, 12vw, 9rem);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+  }
+
+  .tall-line {
+    position: relative;
+  }
+
+  .tall-line::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.35em;
+    bottom: 0.35em;
+    width: 2px;
+    background: hsl(var(--accent));
   }
 }
