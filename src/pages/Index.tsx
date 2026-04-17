@@ -1,725 +1,554 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 
-const Index = () => {
-  const [activeNode, setActiveNode] = useState<string | null>(null);
-  const [currentSection, setCurrentSection] = useState('home');
-  const [blockHeight, setBlockHeight] = useState(1847234);
+const IMGS = {
+  hero:         'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/841a898e-bf89-4aa5-b069-25c9e0233c37.jpg',
+  complex:      'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/8256c94c-8ef3-4db7-8d5f-195bc03671ef.jpg',
+  construction: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/65fd4b2c-c552-449f-8152-13624dee3b44.jpg',
+  couple:       'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/daa465db-44b8-401e-b607-3c0266d01b09.jpg',
+};
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBlockHeight(prev => prev + 1);
-    }, 12000);
-    return () => clearInterval(interval);
-  }, []);
+const navItems = [
+  { id: 'idea',     label: 'Идея' },
+  { id: 'how',      label: 'Как работает' },
+  { id: 'benefits', label: 'Участнику' },
+  { id: 'money',    label: 'Финансы' },
+  { id: 'steps',    label: 'Шаги' },
+  { id: 'cta',      label: 'Войти в систему' },
+];
 
-  const navItems = [
-    { id: 'home', label: 'Главная' },
-    { id: 'how', label: 'Как работает' },
-    { id: 'system', label: 'Система' },
-    { id: 'transparency', label: 'Прозрачность' },
-    { id: 'mortgage', label: 'Без ипотеки' },
-    { id: 'contacts', label: 'Контакты' },
-  ];
+export default function Index() {
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const scrollToSection = (sectionId: string) => {
-    setCurrentSection(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const scroll = (id: string) => {
+    setMenuOpen(false);
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const systemNodes = [
-    {
-      id: 'land',
-      label: 'Земля',
-      sub: 'Основа проекта',
-      color: '#10b981',
-      icon: 'MapPin',
-      desc: 'Земля входит в систему как базовый актив, а не как повод для перепродажи и спекуляции.',
-    },
-    {
-      id: 'developer',
-      label: 'Девелопер',
-      sub: 'Профессионал, а не носитель риска',
-      color: '#a855f7',
-      icon: 'Building2',
-      desc: 'Девелопер должен строить, а не тонуть в кредитах, продажах и чужой финансовой нагрузке.',
-    },
-    {
-      id: 'finance',
-      label: 'Финансы',
-      sub: 'Кристально публично',
-      color: '#eab308',
-      icon: 'Wallet',
-      desc: 'Все ключевые движения денег, этапы, документы и события видны участникам системы.',
-    },
-    {
-      id: 'participants',
-      label: 'Участники',
-      sub: 'Будущие заказчики результата',
-      color: '#10b981',
-      icon: 'Users',
-      desc: 'Не дольщики, не пассивные покупатели, а люди, под которых создаётся проект.',
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
-      <div className="fixed inset-0 opacity-20 pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-[128px]" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary rounded-full blur-[128px]" />
-      </div>
-
-      <div className="fixed top-0 right-0 w-1/3 h-1/2 opacity-10 pointer-events-none">
-        <img
-          src="https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/9167b33d-7e3d-4a6a-bb00-2f40d7705bb1.jpg"
-          alt=""
-          className="w-full h-full object-cover mix-blend-lighten"
-        />
-      </div>
+    <div className="min-h-screen bg-background text-foreground">
 
       {/* NAV */}
-      <nav className="fixed top-0 w-full z-50 bg-background/70 backdrop-blur-xl border-b border-border">
-        <div className="container mx-auto px-6 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="text-xl font-bold tracking-tighter gradient-text">КРИПТОМЕТРЫ</div>
-              <div className="hidden lg:flex items-center gap-2 text-xs text-muted-foreground border-l border-border pl-4">
-                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                <span className="font-mono">Блок #{blockHeight}</span>
-              </div>
-            </div>
-            <div className="hidden md:flex gap-6">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`text-xs font-medium hover:text-primary transition-colors ${
-                    currentSection === item.id ? 'text-primary' : 'text-muted-foreground'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* 1. HERO */}
-      <section id="home" className="pt-32 pb-24 px-6 relative">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8 animate-fade-in relative z-10">
-              <div className="inline-block px-4 py-2 border border-primary/30 text-xs font-mono text-primary">
-                Система в стадии тестирования • Не является офертой
-              </div>
-
-              <div className="space-y-2">
-                <p className="text-sm font-mono text-muted-foreground tracking-widest uppercase">Когда девелопмент становится системой</p>
-                <h1 className="text-6xl lg:text-8xl font-black leading-[0.9] tracking-tighter">
-                  КРИПТО<span className="gradient-text">МЕТРЫ</span>
-                </h1>
-                <p className="text-2xl lg:text-3xl font-bold tracking-tight text-foreground/80 pt-2">
-                  Майним недвижимость
-                </p>
-              </div>
-
-              <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-                Когда устал переплачивать — и решил строить по уму.<br /><br />
-                Не брать у рынка готовую квартиру по цене, в которую уже зашиты чужие кредиты,
-                реклама, риски и жирная наценка. А зайти раньше, объединиться с другими и прийти
-                к своему жилью как будущий заказчик — а не запоздавший покупатель.
-              </p>
-
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  'Вы не дольщик. Вы — заказчик',
-                  'До 30% ниже рынка — цель системы',
-                  'Все деньги системы — в смартфоне 24/7',
-                  'Приедь на стройку. Сам. Лично.',
-                ].map((item) => (
-                  <div key={item} className="flex items-start gap-2 text-xs text-muted-foreground">
-                    <span className="text-primary mt-0.5">→</span>
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap gap-4">
-                <Button size="lg" className="font-mono text-sm tracking-wider bg-primary hover:bg-primary/80 text-black font-bold">
-                  Получить КМ
-                </Button>
-                <Button size="lg" variant="outline" className="font-mono text-sm tracking-wider" onClick={() => scrollToSection('how')}>
-                  Как это работает
-                </Button>
-              </div>
-            </div>
-
-            {/* SVG схема */}
-            <div className="relative h-[580px] animate-fade-in">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5" />
-              <svg className="w-full h-full relative z-10" viewBox="0 0 600 600">
-                <defs>
-                  <filter id="glow">
-                    <feGaussianBlur stdDeviation="4" result="coloredBlur" />
-                    <feMerge>
-                      <feMergeNode in="coloredBlur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-
-                {[
-                  { x1: 150, y1: 150, x2: 450, y2: 150, color: '#10b981' },
-                  { x1: 450, y1: 150, x2: 450, y2: 450, color: '#a855f7' },
-                  { x1: 450, y1: 450, x2: 150, y2: 450, color: '#eab308' },
-                  { x1: 150, y1: 450, x2: 150, y2: 150, color: '#10b981' },
-                ].map((line, i) => (
-                  <line
-                    key={i}
-                    x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2}
-                    stroke={line.color} strokeWidth="1" opacity="0.35" strokeDasharray="6,4"
-                  >
-                    <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1.2s" repeatCount="indefinite" />
-                  </line>
-                ))}
-                <line x1="150" y1="150" x2="450" y2="450" stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="4,6" />
-                <line x1="450" y1="150" x2="150" y2="450" stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="4,6" />
-
-                <circle cx="300" cy="300" r="30" fill="rgba(10,10,10,0.95)" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-                <text x="300" y="296" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="8" fontFamily="IBM Plex Mono">СИСТЕМА</text>
-                <text x="300" y="308" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="8" fontFamily="IBM Plex Mono">КМ</text>
-
-                {systemNodes.map((node, index) => {
-                  const positions = [
-                    { x: 150, y: 150 },
-                    { x: 450, y: 150 },
-                    { x: 450, y: 450 },
-                    { x: 150, y: 450 },
-                  ];
-                  const pos = positions[index];
-                  const isActive = activeNode === node.id;
-
-                  return (
-                    <g
-                      key={node.id}
-                      onMouseEnter={() => setActiveNode(node.id)}
-                      onMouseLeave={() => setActiveNode(null)}
-                      className="cursor-pointer"
-                    >
-                      <circle cx={pos.x} cy={pos.y} r={isActive ? 58 : 52} fill={node.color} opacity="0.15" filter="url(#glow)" />
-                      <circle
-                        cx={pos.x} cy={pos.y} r="46"
-                        fill="rgba(10,10,10,0.95)"
-                        stroke={node.color}
-                        strokeWidth={isActive ? 2 : 1}
-                      />
-                      <text x={pos.x} y={pos.y - 8} textAnchor="middle" fill={node.color} fontSize="11" fontWeight="700" fontFamily="Space Grotesk">
-                        {node.label.toUpperCase()}
-                      </text>
-                      <text x={pos.x} y={pos.y + 8} textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="8" fontFamily="IBM Plex Mono">
-                        {node.sub.split(',')[0].substring(0, 14)}
-                      </text>
-                    </g>
-                  );
-                })}
-              </svg>
-
-              {activeNode && (
-                <div className="absolute bottom-0 left-0 right-0 bg-black/95 border border-primary/30 p-4 font-mono animate-fade-in">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                    <span className="text-xs text-primary font-bold">{systemNodes.find(n => n.id === activeNode)?.label.toUpperCase()}</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    {systemNodes.find(n => n.id === activeNode)?.desc}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. БОЛЬ */}
-      <section className="py-20 px-6 border-t border-border relative">
-        <div className="absolute top-0 left-0 w-1/2 h-full opacity-5 pointer-events-none">
-          <img
-            src="https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/a55f0b31-3b14-4e9a-97bc-2104bef12857.jpg"
-            alt=""
-            className="w-full h-full object-cover mix-blend-lighten"
-          />
-        </div>
-        <div className="container mx-auto max-w-5xl relative z-10">
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter mb-4">
-            Почему обычная квартира<br /><span className="gradient-text">такая дорогая</span>
-          </h2>
-          <p className="text-base text-muted-foreground mb-10 max-w-xl">
-            Потому что ты платишь не только за бетон и стены.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-10">
-            {[
-              { label: 'Дорогой вход в землю', icon: 'MapPin' },
-              { label: 'Банковские проценты', icon: 'Percent' },
-              { label: 'Продажи и реклама', icon: 'Megaphone' },
-              { label: 'Чужие ошибки', icon: 'AlertTriangle' },
-              { label: 'Чужая прибыль', icon: 'TrendingUp' },
-              { label: '…и только потом — квартира', icon: 'Home' },
-            ].map((item) => (
-              <div key={item.label} className="tech-border p-4 bg-card/40 backdrop-blur-sm flex items-start gap-3">
-                <Icon name={item.icon} size={16} className="text-primary mt-0.5 shrink-0" />
-                <span className="text-sm">{item.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="tech-border p-6 bg-background/70">
-            <p className="text-base font-bold">
-              КриптоМетры — это попытка развернуть эту логику.{' '}
-              <span className="text-primary">Не покупать в самом конце по полной цене. А входить раньше.</span>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. ГЛАВНАЯ ИДЕЯ */}
-      <section className="py-20 px-6 border-t border-border bg-card/10">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter mb-6">
-            Вы не дольщик.<br /><span className="gradient-text">Вы — заказчик</span>
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="tech-border p-6 bg-card/50 space-y-3">
-              <div className="text-xs font-mono text-muted-foreground mb-2">СТАРАЯ МОДЕЛЬ</div>
-              <h3 className="font-bold text-lg">Дольщик</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Ему продают то, что уже решили построить без него. Он приходит последним. Молчит. Подписывает то, что принесли.
-              </p>
-            </div>
-            <div className="tech-border p-6 bg-card/50 space-y-3 border-primary/40">
-              <div className="text-xs font-mono text-primary mb-2">НОВАЯ МОДЕЛЬ</div>
-              <h3 className="font-bold text-lg">Пайщик-заказчик</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Входит раньше. Участвует в системе. Дом создаётся под него, а не продаётся ему.
-              </p>
-            </div>
-          </div>
-          <div className="mt-8 p-6 border-l-2 border-primary bg-background/50">
-            <p className="text-base leading-relaxed">
-              Мы возвращаем человеку роль заказчика. Не молчаливого покупателя, который подписывает то, что ему принесли,
-              а участника, который заходит в систему раньше рынка и идёт к своему жилью по другой логике.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. АРХИТЕКТУРА СИСТЕМЫ */}
-      <section id="system" className="py-20 px-6 border-t border-border relative">
-        <div className="absolute bottom-0 right-0 w-2/5 h-3/4 opacity-5 pointer-events-none">
-          <img
-            src="https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/621654ca-16af-469e-a494-60288e6e3ed0.jpg"
-            alt=""
-            className="w-full h-full object-cover mix-blend-lighten"
-          />
-        </div>
-        <div className="container mx-auto max-w-5xl relative z-10">
-          <div className="mb-12">
-            <h2 className="text-4xl lg:text-6xl font-black tracking-tighter mb-2">
-              Как устроена <span className="gradient-text">система</span>
-            </h2>
-            <p className="text-muted-foreground text-sm font-mono">Как по старинке. Только с технологиями.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {systemNodes.map((node) => (
-              <div key={node.id} className="tech-border p-6 bg-card/40 backdrop-blur-sm group hover:bg-card/70 transition-all duration-300">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 border" style={{ borderColor: node.color + '60' }}>
-                    <Icon name={node.icon} size={20} style={{ color: node.color }} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm">{node.label}</h3>
-                    <p className="text-xs font-mono" style={{ color: node.color }}>{node.sub}</p>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{node.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 p-6 border border-border bg-card/30 font-mono text-sm">
-            <Icon name="Terminal" size={16} className="text-accent inline mr-2" />
-            Если девелопмент можно собрать как систему — рынок меняется.{' '}
-            <span className="text-muted-foreground">Если нет — мы публично покажем, где и почему он ломается.</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. ЧТО ПОЛУЧАЕТ УЧАСТНИК */}
-      <section className="py-20 px-6 border-t border-border bg-card/10">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter mb-12">
-            Что получает <span className="gradient-text">участник</span> системы
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              {
-                icon: 'BadgePercent',
-                title: 'Не переплачивает',
-                desc: 'Не кормит банковский процент, лишние прокладки и чужую наценку.',
-                color: '#10b981',
-              },
-              {
-                icon: 'Vote',
-                title: 'Имеет право влиять',
-                desc: 'Не сидит молча, пока всё решили без него.',
-                color: '#a855f7',
-              },
-              {
-                icon: 'HardHat',
-                title: 'Может прийти на стройку',
-                desc: 'Приехать на объект и своими глазами увидеть, как реально идут работы.',
-                color: '#eab308',
-              },
-              {
-                icon: 'Smartphone',
-                title: 'Все деньги на ладони',
-                desc: 'Каждый рубль системы виден в смартфоне 24 часа в сутки.',
-                color: '#10b981',
-              },
-              {
-                icon: 'Wrench',
-                title: 'Платит за работу',
-                desc: 'Не за красивые обещания, а за реальный результат.',
-                color: '#a855f7',
-              },
-              {
-                icon: 'Unlock',
-                title: 'Без ипотечной кабалы',
-                desc: 'Внутренняя беспроцентная рассрочка до 20 лет. Накопительная система. Криптотека.',
-                color: '#eab308',
-              },
-            ].map((item) => (
-              <div key={item.title} className="tech-border p-5 bg-card/40 hover:bg-card/70 transition-all duration-300">
-                <div className="mb-3">
-                  <Icon name={item.icon} size={24} style={{ color: item.color }} />
-                </div>
-                <h3 className="font-bold text-sm mb-2">{item.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 6. ПРОЗРАЧНОСТЬ */}
-      <section id="transparency" className="py-20 px-6 border-t border-border relative">
-        <div className="absolute top-0 left-0 w-1/3 h-full opacity-5 pointer-events-none">
-          <img
-            src="https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/9167b33d-7e3d-4a6a-bb00-2f40d7705bb1.jpg"
-            alt=""
-            className="w-full h-full object-cover mix-blend-lighten"
-          />
-        </div>
-        <div className="container mx-auto max-w-5xl relative z-10">
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter mb-4">
-            Все деньги <span className="gradient-text">на ладони</span>
-          </h2>
-          <p className="text-xl font-bold mb-2">Кристально публично.</p>
-          <p className="text-muted-foreground text-sm mb-10">Все деньги системы — у тебя в смартфоне 24/7.</p>
-          <div className="grid md:grid-cols-2 gap-8 mb-10">
-            <div className="space-y-3">
-              <p className="text-xs font-mono text-primary mb-4">// ТЫ ВИДИШЬ:</p>
-              {[
-                'Сколько собрано',
-                'Сколько лежит на счёте',
-                'Куда ушёл каждый платёж',
-                'Что оплачено',
-                'Что строится',
-                'Что осталось в резерве',
-              ].map((item) => (
-                <div key={item} className="flex items-center gap-3 text-sm">
-                  <div className="w-2 h-2 bg-primary rounded-full shrink-0" />
-                  {item}
-                </div>
-              ))}
-            </div>
-            <div className="tech-border p-6 bg-card/40 space-y-4">
-              <p className="text-xs font-mono text-secondary mb-4">// БЕЗОПАСНОСТЬ КОНТУРА:</p>
-              {[
-                { icon: 'Lock', label: 'Шифрование' },
-                { icon: 'FileText', label: 'Цифровой журнал действий' },
-                { icon: 'Database', label: 'Прозрачный реестр событий' },
-                { icon: 'Link', label: 'Блокчейн-фиксация важных данных' },
-                { icon: 'Bot', label: 'ИИ-контроль движения средств' },
-                { icon: 'Archive', label: 'Архив документов в одном месте' },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center gap-3 text-sm">
-                  <Icon name={item.icon} size={16} className="text-muted-foreground shrink-0" />
-                  {item.label}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="p-6 border-l-2 border-primary text-xl font-black tracking-tight">
-            Не «доверяйте нам». <span className="gradient-text">Смотрите сами.</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. КАЧЕСТВО */}
-      <section className="py-20 px-6 border-t border-border bg-card/10">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter mb-4">
-            Строят только те,<br />кто <span className="gradient-text">прошёл отбор</span>
-          </h2>
-          <p className="text-muted-foreground text-sm mb-10 max-w-xl">
-            В систему допускаются только аккредитованные девелоперы и подрядчики.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-10">
-            {[
-              { label: 'Опыт и сданные объекты', icon: 'Award' },
-              { label: 'Репутация', icon: 'Star' },
-              { label: 'Прозрачные сметы', icon: 'ClipboardList' },
-              { label: 'Открытый контур', icon: 'Eye' },
-              { label: 'Цифровой контроль', icon: 'Monitor' },
-              { label: 'Ответственность перед людьми', icon: 'Users' },
-            ].map((item) => (
-              <div key={item.label} className="tech-border p-4 bg-card/40 flex items-start gap-3">
-                <Icon name={item.icon} size={16} className="text-primary mt-0.5 shrink-0" />
-                <span className="text-sm">{item.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="p-6 border-l-2 border-accent text-sm font-bold">
-            Не каждый застройщик нам подходит.{' '}
-            <span className="text-muted-foreground font-normal">
-              Народный дом будут строить только те, кто готов строить честно.
+      <header className="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <button onClick={() => scroll('hero')} className="flex items-center gap-2">
+            <span className="serif text-xl font-black tracking-tight">КриптоМетры</span>
+            <span className="hidden sm:inline text-xs text-muted-foreground border border-border px-2 py-0.5 rounded-sm sans">
+              бета
             </span>
-          </div>
-        </div>
-      </section>
+          </button>
 
-      {/* 8. БЕЗ ИПОТЕКИ */}
-      <section id="mortgage" className="py-20 px-6 border-t border-border">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter mb-4">
-            Без ипотечной <span className="gradient-text">кабалы</span>
-          </h2>
-          <p className="text-base text-muted-foreground mb-10">Вместо банковской удавки — своя логика.</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-            {[
-              { label: 'Беспроцентная рассрочка', sub: 'до 20 лет', icon: 'Calendar' },
-              { label: 'Накопительная программа', sub: 'без переплат', icon: 'PiggyBank' },
-              { label: 'Коммерческие субсидии', sub: 'от партнёров', icon: 'Handshake' },
-              { label: 'Криптотека', sub: 'новый инструмент', icon: 'Layers' },
-            ].map((item) => (
-              <div key={item.label} className="tech-border p-5 bg-card/40 text-center space-y-2">
-                <Icon name={item.icon} size={24} className="text-primary mx-auto" />
-                <p className="text-sm font-bold">{item.label}</p>
-                <p className="text-xs text-muted-foreground font-mono">{item.sub}</p>
-              </div>
+          <nav className="hidden md:flex items-center gap-7">
+            {navItems.map(n => (
+              <button
+                key={n.id}
+                onClick={() => scroll(n.id)}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors sans"
+              >
+                {n.label}
+              </button>
             ))}
-          </div>
-          <div className="p-6 border-l-2 border-primary text-base font-bold">
-            Не платить банку полжизни.{' '}
-            <span className="text-muted-foreground font-normal">А собирать своё жильё внутри системы.</span>
-          </div>
-        </div>
-      </section>
+          </nav>
 
-      {/* 9. МАЙНИМ ЧЕРЕЗ УЧАСТИЕ */}
-      <section className="py-20 px-6 border-t border-border bg-card/10">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter mb-4">
-            Майним недвижимость <span className="gradient-text">через участие</span>
-          </h2>
-          <p className="text-muted-foreground text-sm mb-10 max-w-xl">
-            Система растёт не только на деньгах. Она растёт на людях, охвате, рекомендациях и общей силе сообщества.
-          </p>
-          <div className="grid md:grid-cols-2 gap-4 mb-10">
-            {[
-              'Участвуешь в системе',
-              'Приводишь людей',
-              'Усиливаешь охват',
-              'Партнёры дают комиссии и субсидии',
-              'Часть ценности возвращается в систему',
-              'Работает на твой цифровой баланс',
-            ].map((item, i) => (
-              <div key={item} className="flex items-center gap-3 text-sm">
-                <span className="text-xs font-mono text-muted-foreground w-6">{String(i + 1).padStart(2, '0')}</span>
-                <span className="text-primary">→</span>
-                <span>{item}</span>
-              </div>
+          <Button
+            size="sm"
+            className="hidden md:inline-flex bg-accent hover:bg-accent/90 text-white sans font-semibold"
+            onClick={() => scroll('cta')}
+          >
+            Получить КМ
+          </Button>
+
+          <button className="md:hidden p-2" onClick={() => setMenuOpen(v => !v)}>
+            <Icon name={menuOpen ? 'X' : 'Menu'} size={22} />
+          </button>
+        </div>
+
+        {menuOpen && (
+          <div className="md:hidden border-t border-border bg-white px-6 py-4 flex flex-col gap-4">
+            {navItems.map(n => (
+              <button key={n.id} onClick={() => scroll(n.id)} className="text-left text-sm font-medium sans">
+                {n.label}
+              </button>
             ))}
-          </div>
-          <div className="p-6 border-l-2 border-secondary text-base font-bold">
-            Не просто смотришь.{' '}
-            <span className="gradient-text">Участвуешь — и растишь свой путь к квартире.</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 10. КАК ЭТО РАБОТАЕТ */}
-      <section id="how" className="py-20 px-6 border-t border-border">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter mb-4">
-            Как это <span className="gradient-text">работает</span>
-          </h2>
-          <p className="text-muted-foreground text-sm mb-12 max-w-2xl">
-            Скидываемся. Покупаем землю. Нанимаем девелопера. Контролируем стройку. Принимаем результат. Живём в доме, который создавался под нас.
-          </p>
-          <div className="space-y-4">
-            {[
-              { step: '01', title: 'Покупаешь КМ', desc: 'И входишь в систему как будущий участник.' },
-              { step: '02', title: 'Получаешь доступ', desc: 'К закрытому контуру, карте проектов и личному кабинету.' },
-              { step: '03', title: 'Следишь за площадками', desc: 'Выбираешь, куда тебе реально интересно зайти.' },
-              { step: '04', title: 'Открывается программа', desc: 'По проекту — получаешь доступ по правилам системы.' },
-              { step: '05', title: 'Движешься к жилью', desc: 'Как будущий пайщик, а не как запоздавший покупатель.' },
-              { step: '06', title: 'Если планы изменились', desc: 'КМ всё равно даёт выгоду у партнёров при покупке обычной квартиры.' },
-            ].map((item) => (
-              <div key={item.step} className="tech-border p-5 bg-card/30 hover:bg-card/60 transition-all duration-300 flex items-start gap-6">
-                <span className="text-3xl font-black text-primary/30 font-mono leading-none shrink-0">{item.step}</span>
-                <div>
-                  <h3 className="font-bold text-sm mb-1">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 11. ДВА ПУТИ */}
-      <section className="py-20 px-6 border-t border-border bg-card/10">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter mb-12">
-            Два пути одного <span className="gradient-text">КриптоМетра</span>
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
-            <div className="tech-border p-8 bg-card/40 space-y-4 border-primary/40">
-              <div className="text-xs font-mono text-primary">ПУТЬ ПЕРВЫЙ</div>
-              <h3 className="text-2xl font-black tracking-tight">Народный путь</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Идёшь к своей квартире через кооперативную логику и контур будущего пайщика. Входишь раньше рынка. Платишь меньше. Контролируешь сам.
-              </p>
-            </div>
-            <div className="tech-border p-8 bg-card/40 space-y-4">
-              <div className="text-xs font-mono text-muted-foreground">ПУТЬ ВТОРОЙ</div>
-              <h3 className="text-2xl font-black tracking-tight">Классический путь</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Если хочешь купить квартиру уже сейчас по обычной модели — получаешь специальные условия у партнёров системы.
-              </p>
-            </div>
-          </div>
-          <div className="p-5 border border-border bg-background/50 text-sm text-center text-muted-foreground">
-            Даже если передумал строить через кооператив —{' '}
-            <span className="text-foreground font-bold">КМ всё равно работает в плюс.</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 12. ПРИМЕР НА ЦИФРАХ */}
-      <section className="py-20 px-6 border-t border-border">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter mb-4">
-            Как рынок <span className="gradient-text">съедает деньги</span>
-          </h2>
-          <p className="text-muted-foreground text-sm mb-10 max-w-xl">
-            Допустим, обычная квартира на рынке стоит 10 млн рублей. В этой цене уже могут сидеть:
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-10">
-            {[
-              'Дорогая земля',
-              'Проценты по кредитам',
-              'Реклама и продажи',
-              'Девелоперская прибыль',
-              'Запас на риски',
-              'Накладные расходы',
-            ].map((item) => (
-              <div key={item} className="tech-border p-4 bg-card/30 text-sm text-center">
-                <span className="text-primary font-bold">+</span> {item}
-              </div>
-            ))}
-          </div>
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
-            <div className="tech-border p-6 bg-card/40 space-y-3">
-              <div className="text-xs font-mono text-muted-foreground">ПО КЛАССИКЕ</div>
-              <h3 className="font-bold">Купил по рынку</h3>
-              <p className="text-sm text-muted-foreground">
-                Сверху — ипотечный процент. Снизу — годы обязательств перед банком.
-              </p>
-            </div>
-            <div className="tech-border p-6 bg-card/40 space-y-3 border-primary/40">
-              <div className="text-xs font-mono text-primary">ЧЕРЕЗ КРИПТОМЕТРЫ</div>
-              <h3 className="font-bold">Цель системы</h3>
-              <p className="text-sm text-muted-foreground">
-                Дать участнику путь к жилью{' '}
-                <span className="text-foreground font-bold">до 30% ниже рынка</span>{' '}
-                за счёт другой модели входа, накопления, контроля и организации проекта.
-              </p>
-            </div>
-          </div>
-          <div className="p-4 border border-border/50 bg-card/20 text-xs text-muted-foreground font-mono">
-            <Icon name="Info" size={12} className="inline mr-2" />
-            Это модельный пример, а не обещание фиксированной цены. Конкретные условия зависят от проекта, документов, сметы и правил программы.
-          </div>
-        </div>
-      </section>
-
-      {/* CONTACTS / CTA */}
-      <section id="contacts" className="py-24 px-6 border-t border-border bg-card/20 relative">
-        <div className="absolute inset-0 opacity-5 pointer-events-none">
-          <img
-            src="https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/621654ca-16af-469e-a494-60288e6e3ed0.jpg"
-            alt=""
-            className="w-full h-full object-cover mix-blend-lighten"
-          />
-        </div>
-        <div className="container mx-auto max-w-4xl text-center relative z-10 space-y-8">
-          <div className="inline-block px-4 py-2 border border-primary/30 text-xs font-mono text-primary">
-            Система в стадии тестирования • Экспериментальная фаза
-          </div>
-          <h2 className="text-5xl lg:text-7xl font-black tracking-tighter">
-            Войди в систему<br /><span className="gradient-text">раньше рынка</span>
-          </h2>
-          <p className="text-muted-foreground max-w-lg mx-auto text-sm leading-relaxed">
-            КМ — цифровой ключ системы. Вход в контур будущего пайщика. Не акция, не валюта, не обещание конкретной квартиры — а место в очереди, которая движется по другой логике.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button size="lg" className="font-mono text-sm tracking-wider bg-primary hover:bg-primary/80 text-black font-bold px-8">
+            <Button className="bg-accent text-white w-full sans" onClick={() => scroll('cta')}>
               Получить КМ
             </Button>
-            <Button size="lg" variant="outline" className="font-mono text-sm tracking-wider px-8">
+          </div>
+        )}
+      </header>
+
+      {/* HERO */}
+      <section id="hero" className="relative h-screen min-h-[640px] flex items-end pb-20 overflow-hidden">
+        <div className="absolute inset-0 img-overlay">
+          <img src={IMGS.hero} alt="Жилой квартал" className="w-full h-full object-cover" />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+          <div className="max-w-3xl animate-fade-up">
+            <p className="text-white/60 text-sm sans font-medium tracking-widest uppercase mb-4">
+              Когда девелопмент становится системой
+            </p>
+            <h1 className="text-white text-5xl sm:text-7xl lg:text-8xl font-black leading-none mb-6">
+              Майним<br />
+              <span className="text-accent">недвижимость</span>
+            </h1>
+            <p className="text-white/80 text-lg sm:text-xl max-w-xl leading-relaxed mb-10 sans">
+              Устал переплачивать? Зайди в систему раньше рынка. Объединись с другими.
+              Получи жильё как будущий заказчик — не как запоздавший покупатель.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Button
+                size="lg"
+                className="bg-accent hover:bg-accent/90 text-white sans font-semibold text-base px-8"
+                onClick={() => scroll('cta')}
+              >
+                Получить КМ
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/40 text-white hover:bg-white/10 sans font-semibold text-base px-8"
+                onClick={() => scroll('how')}
+              >
+                Как это работает
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 inset-x-0 z-10 bg-black/50 backdrop-blur-sm border-t border-white/10">
+          <div className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-3 divide-x divide-white/20">
+            {[
+              { val: 'до 30%', label: 'ниже рынка' },
+              { val: '24/7',   label: 'деньги на ладони' },
+              { val: '0%',     label: 'рассрочка до 20 лет' },
+            ].map(s => (
+              <div key={s.val} className="text-center px-4">
+                <p className="text-white text-2xl font-black serif">{s.val}</p>
+                <p className="text-white/55 text-xs sans">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* БОЛЬ */}
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <p className="text-accent sans font-semibold text-sm uppercase tracking-widest mb-4">Проблема</p>
+            <h2 className="text-4xl sm:text-5xl font-black mb-6">
+              Почему обычная квартира такая дорогая?
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+              Потому что ты платишь не только за бетон и стены.
+            </p>
+            <div className="space-y-3 mb-10">
+              {[
+                { icon: 'MapPin',      text: 'Дорогой вход в землю' },
+                { icon: 'Percent',     text: 'Банковские проценты застройщика' },
+                { icon: 'Megaphone',   text: 'Расходы на рекламу и продажи' },
+                { icon: 'AlertCircle', text: 'Чужие ошибки и риски' },
+                { icon: 'TrendingUp',  text: 'Чужая прибыль' },
+                { icon: 'Home',        text: '…и только потом — сама квартира' },
+              ].map(item => (
+                <div key={item.text} className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center shrink-0">
+                    <Icon name={item.icon} size={15} className="text-accent" />
+                  </div>
+                  <span className="text-sm">{item.text}</span>
+                </div>
+              ))}
+            </div>
+            <div className="accent-bar">
+              <p className="text-base font-semibold sans leading-relaxed">
+                КриптоМетры — попытка развернуть логику. Не покупать в конце по полной цене. А входить раньше.
+              </p>
+            </div>
+          </div>
+
+          <div className="relative rounded-xl overflow-hidden h-[480px] shadow-2xl">
+            <img src={IMGS.complex} alt="Жилой комплекс" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 text-white">
+              <p className="text-2xl font-black serif">Другая логика.</p>
+              <p className="text-sm text-white/70 mt-1 sans">Вход раньше рынка — разница на выходе</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ИДЕЯ */}
+      <section id="idea" className="section-cream py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-2xl mx-auto text-center mb-16">
+            <p className="text-accent sans font-semibold text-sm uppercase tracking-widest mb-4">Ключевая идея</p>
+            <h2 className="text-4xl sm:text-5xl font-black mb-6">
+              Вы не дольщик.<br />Вы — заказчик
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              Дольщику продают то, что уже решили построить без него. Пайщик входит раньше
+              и участвует в системе как человек, под которого создаётся проект.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: 'UserX', title: 'Дольщик',
+                accent: 'bg-red-50 text-red-500',
+                dot: 'bg-red-300',
+                items: ['Приходит последним', 'Платит полную цену', 'Молчит и подписывает', 'Ждёт, что будет'],
+              },
+              {
+                icon: 'ArrowRight', title: 'Разница',
+                accent: 'bg-accent/10 text-accent',
+                dot: 'bg-accent',
+                items: ['Момент входа', 'Уровень цены', 'Право голоса', 'Прозрачность'],
+                highlight: true,
+              },
+              {
+                icon: 'UserCheck', title: 'Заказчик-пайщик',
+                accent: 'bg-green-50 text-green-600',
+                dot: 'bg-green-400',
+                items: ['Входит раньше рынка', 'Идёт к цене без наценки', 'Влияет и контролирует', 'Видит каждый рубль'],
+              },
+            ].map(col => (
+              <div
+                key={col.title}
+                className={`bg-white rounded-xl p-7 shadow-sm card-lift ${col.highlight ? 'border-2 border-accent' : ''}`}
+              >
+                <div className={`w-11 h-11 rounded-full flex items-center justify-center mb-5 ${col.accent}`}>
+                  <Icon name={col.icon} size={20} />
+                </div>
+                <h3 className="sans font-bold text-lg mb-4">{col.title}</h3>
+                <ul className="space-y-2">
+                  {col.items.map(item => (
+                    <li key={item} className="text-sm flex items-center gap-2 text-muted-foreground">
+                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${col.dot}`} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center text-muted-foreground text-base mt-12 max-w-xl mx-auto sans">
+            Мы возвращаем человеку роль заказчика — не молчаливого покупателя, а участника, который идёт к жилью по другой логике.
+          </p>
+        </div>
+      </section>
+
+      {/* КАК УСТРОЕНА СИСТЕМА */}
+      <section id="how" className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-16 items-center mb-20">
+            <div>
+              <p className="text-accent sans font-semibold text-sm uppercase tracking-widest mb-4">Архитектура</p>
+              <h2 className="text-4xl sm:text-5xl font-black mb-6">Как устроена система</h2>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                Как по-старинке. Только с технологиями. Земля, профессиональный девелопер, прозрачные финансы
+                и люди, которые заказывают — а не покупают.
+              </p>
+            </div>
+            <div className="relative rounded-xl overflow-hidden h-72 shadow-xl">
+              <img src={IMGS.construction} alt="Стройка" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
+              <div className="absolute bottom-5 left-5 text-white">
+                <p className="font-black serif text-xl">Реальная стройка.</p>
+                <p className="text-white/65 text-sm sans">Не рендер. Не обещание.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { icon: 'MapPin',    label: 'Земля',       sub: 'Основа проекта',               text: 'Входит в систему как базовый актив. Не повод для перепродажи и спекуляции.',                  col: '#f97316' },
+              { icon: 'HardHat',  label: 'Девелопер',   sub: 'Профессионал, не носитель риска', text: 'Строит — не тонет в кредитах. Работает по fee-модели без лишней финансовой нагрузки.',     col: '#3b82f6' },
+              { icon: 'Eye',      label: 'Финансы',     sub: 'Кристально публично',           text: 'Все движения денег, этапы, документы и события видны участникам системы.',                   col: '#10b981' },
+              { icon: 'Users',    label: 'Участники',   sub: 'Будущие заказчики',             text: 'Не дольщики. Не пассивные покупатели. Люди, под которых создаётся проект.',                 col: '#8b5cf6' },
+            ].map(card => (
+              <div key={card.label} className="bg-white rounded-xl p-6 shadow-sm border border-border card-lift">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-5" style={{ background: card.col + '1a' }}>
+                  <Icon name={card.icon} size={22} style={{ color: card.col }} />
+                </div>
+                <h3 className="sans font-bold text-base mb-1">{card.label}</h3>
+                <p className="text-xs font-semibold sans mb-3" style={{ color: card.col }}>{card.sub}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{card.text}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 bg-foreground text-background rounded-xl px-8 py-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <Icon name="Lightbulb" size={28} className="text-accent shrink-0" />
+            <p className="sans text-sm leading-relaxed">
+              Если девелопмент можно собрать как систему — рынок меняется.{' '}
+              <span className="text-white/50">Если нет — мы публично покажем, где и почему он ломается.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ЧТО ПОЛУЧАЕТ УЧАСТНИК */}
+      <section id="benefits" className="section-cream py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-xl mb-14">
+            <p className="text-accent sans font-semibold text-sm uppercase tracking-widest mb-4">Участнику</p>
+            <h2 className="text-4xl sm:text-5xl font-black">Что получает участник системы</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              { icon: 'BadgePercent', title: 'Не переплачивает',       desc: 'Не кормит банковский процент, лишние прокладки и чужую наценку.' },
+              { icon: 'Vote',         title: 'Имеет право влиять',     desc: 'Не сидит молча, пока всё решили без него.' },
+              { icon: 'HardHat',      title: 'Может прийти на стройку', desc: 'Приедь на объект и своими глазами увидь, как идут работы.' },
+              { icon: 'Smartphone',   title: 'Все деньги на ладони',   desc: 'Каждый рубль системы виден в смартфоне 24 часа в сутки.' },
+              { icon: 'CheckCircle',  title: 'Платит за работу',       desc: 'Не за обещания. За реальный, измеримый результат.' },
+              { icon: 'Unlock',       title: 'Без ипотечной кабалы',   desc: 'Беспроцентная рассрочка до 20 лет. Накопительная система. Криптотека.' },
+            ].map(b => (
+              <div key={b.title} className="bg-white rounded-xl p-6 shadow-sm card-lift">
+                <div className="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center mb-4">
+                  <Icon name={b.icon} size={20} className="text-accent" />
+                </div>
+                <h3 className="sans font-bold mb-2">{b.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ПРОЗРАЧНОСТЬ */}
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <div className="relative rounded-xl overflow-hidden h-[500px] shadow-2xl">
+            <img src={IMGS.couple} alt="Пара у новостройки" className="w-full h-full object-cover" />
+          </div>
+          <div>
+            <p className="text-accent sans font-semibold text-sm uppercase tracking-widest mb-4">Прозрачность</p>
+            <h2 className="text-4xl sm:text-5xl font-black mb-6">Все деньги<br />на ладони</h2>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+              Кристально публично. Все деньги системы — у тебя в смартфоне 24/7.
+            </p>
+            <div className="space-y-4 mb-10">
+              {[
+                { icon: 'DollarSign', text: 'Сколько собрано и сколько на счёте' },
+                { icon: 'ArrowRight', text: 'Куда ушёл каждый платёж' },
+                { icon: 'Building2',  text: 'Что строится и что в резерве' },
+                { icon: 'Lock',       text: 'Шифрование и цифровой журнал действий' },
+                { icon: 'Link',       text: 'Блокчейн-фиксация ключевых событий' },
+                { icon: 'Bot',        text: 'ИИ-контроль движения средств' },
+              ].map(row => (
+                <div key={row.text} className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center shrink-0">
+                    <Icon name={row.icon} size={15} className="text-foreground" />
+                  </div>
+                  <span className="text-sm">{row.text}</span>
+                </div>
+              ))}
+            </div>
+            <div className="accent-bar">
+              <p className="text-xl font-black serif">Не «доверяйте нам». Смотрите сами.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* БЕЗ ИПОТЕКИ + ЦИФРЫ */}
+      <section id="money" className="section-cream py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-xl mb-14">
+            <p className="text-accent sans font-semibold text-sm uppercase tracking-widest mb-4">Финансы</p>
+            <h2 className="text-4xl sm:text-5xl font-black mb-6">Без ипотечной кабалы</h2>
+            <p className="text-muted-foreground text-lg">Вместо банковской удавки — своя логика.</p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+            {[
+              { icon: 'Calendar',  label: 'Рассрочка',    sub: 'Беспроцентная до 20 лет' },
+              { icon: 'PiggyBank', label: 'Накопительная', sub: 'Программа без переплат' },
+              { icon: 'Handshake', label: 'Субсидии',      sub: 'Коммерческие от партнёров' },
+              { icon: 'Layers',    label: 'Криптотека',    sub: 'Новый инструмент входа' },
+            ].map(c => (
+              <div key={c.label} className="bg-white rounded-xl p-6 text-center shadow-sm card-lift">
+                <div className="w-12 h-12 bg-foreground rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name={c.icon} size={22} className="text-background" />
+                </div>
+                <p className="sans font-bold mb-1">{c.label}</p>
+                <p className="text-xs text-muted-foreground">{c.sub}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-foreground text-background rounded-2xl overflow-hidden">
+            <div className="px-8 py-8 border-b border-white/10">
+              <p className="text-accent font-semibold text-sm uppercase tracking-widest mb-2 sans">Пример на цифрах</p>
+              <h3 className="text-2xl font-black serif">Как рынок съедает деньги</h3>
+              <p className="text-white/50 text-sm mt-2 sans">Квартира за 10 млн на рынке. Из чего состоит цена:</p>
+            </div>
+            <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/10">
+              <div className="px-8 py-8">
+                <p className="text-white/40 text-xs uppercase tracking-widest sans mb-5">По классике</p>
+                <ul className="space-y-3">
+                  {['Дорогая земля', 'Банковские проценты застройщика', 'Реклама и продажи', 'Девелоперская прибыль', 'Ипотека сверху — годы обязательств'].map(item => (
+                    <li key={item} className="flex items-center gap-2 text-sm text-white/65">
+                      <span className="text-red-400 font-bold">+</span>{item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="px-8 py-8">
+                <p className="text-accent text-xs uppercase tracking-widest sans mb-5 font-semibold">Через КриптоМетры</p>
+                <p className="text-5xl font-black serif text-accent mb-3">−30%</p>
+                <p className="text-sm text-white/70 leading-relaxed">
+                  Цель системы — дать участнику путь к жилью до 30% ниже рынка за счёт другой модели входа, накопления, контроля и организации.
+                </p>
+                <p className="text-xs text-white/30 mt-4 sans">
+                  Модельный пример, не обещание фиксированной цены. Условия зависят от проекта и программы.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* КАЧЕСТВО */}
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-start">
+          <div>
+            <p className="text-accent sans font-semibold text-sm uppercase tracking-widest mb-4">Отбор</p>
+            <h2 className="text-4xl sm:text-5xl font-black mb-6">
+              Строят только те,<br />кто прошёл отбор
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+              В систему допускаются только аккредитованные девелоперы и подрядчики.
+            </p>
+            <div className="space-y-0">
+              {[
+                'Опыт и сданные объекты',
+                'Репутация',
+                'Прозрачные сметы',
+                'Готовность работать в открытом контуре',
+                'Цифровой контроль',
+                'Ответственность перед людьми',
+              ].map(item => (
+                <div key={item} className="flex items-center gap-3 py-3 border-b border-border last:border-0">
+                  <Icon name="Check" size={16} className="text-green-500 shrink-0" />
+                  <span className="text-sm">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-5">
+            <div className="bg-secondary rounded-2xl p-8">
+              <Icon name="Shield" size={32} className="text-accent mb-6" />
+              <h3 className="sans text-xl font-black mb-3">Не каждый застройщик нам подходит</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Народный дом будут строить только те, кто готов строить честно.
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl p-8 shadow-sm">
+              <h3 className="sans font-bold text-base mb-2">Два пути одного КриптоМетра</h3>
+              <div className="space-y-4 mt-4">
+                <div className="border-l-2 border-accent pl-4">
+                  <p className="sans font-semibold text-sm">Народный путь</p>
+                  <p className="text-xs text-muted-foreground mt-1">К своей квартире через кооперативную логику. Входишь раньше. Платишь меньше. Контролируешь сам.</p>
+                </div>
+                <div className="border-l-2 border-border pl-4">
+                  <p className="sans font-semibold text-sm">Классический путь</p>
+                  <p className="text-xs text-muted-foreground mt-1">Хочешь купить сейчас? Получи специальные условия у партнёров. КМ всё равно работает в плюс.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ШАГИ */}
+      <section id="steps" className="section-cream py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="max-w-xl mb-14">
+            <p className="text-accent sans font-semibold text-sm uppercase tracking-widest mb-4">Как это работает</p>
+            <h2 className="text-4xl sm:text-5xl font-black mb-4">Шесть шагов<br />к своему жилью</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Скидываемся. Покупаем землю. Нанимаем девелопера. Контролируем стройку. Принимаем результат. Живём.
+            </p>
+          </div>
+          <div className="space-y-4">
+            {[
+              { n: '01', title: 'Покупаешь КМ',           desc: 'И входишь в систему как будущий участник.' },
+              { n: '02', title: 'Получаешь доступ',       desc: 'К закрытому контуру, карте проектов и личному кабинету.' },
+              { n: '03', title: 'Следишь за площадками',  desc: 'Выбираешь, куда тебе реально интересно зайти.' },
+              { n: '04', title: 'Открывается программа',  desc: 'По проекту — получаешь доступ по правилам системы.' },
+              { n: '05', title: 'Движешься к жилью',      desc: 'Как будущий пайщик, а не запоздавший покупатель.' },
+              { n: '06', title: 'Если планы изменились',  desc: 'КМ всё равно даёт выгоду у партнёров при покупке обычной квартиры.' },
+            ].map(s => (
+              <div key={s.n} className="bg-white rounded-xl px-7 py-5 shadow-sm flex items-center gap-6 card-lift">
+                <span className="text-4xl font-black text-border/60 serif leading-none shrink-0 w-14 text-center">{s.n}</span>
+                <div className="flex-1">
+                  <p className="sans font-bold mb-0.5">{s.title}</p>
+                  <p className="text-sm text-muted-foreground">{s.desc}</p>
+                </div>
+                <Icon name="ChevronRight" size={18} className="text-border shrink-0 hidden md:block" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section id="cta" className="relative py-36 px-6 overflow-hidden">
+        <div className="absolute inset-0 img-overlay">
+          <img src={IMGS.hero} alt="" className="w-full h-full object-cover" />
+        </div>
+        <div className="relative z-10 max-w-3xl mx-auto text-center text-white">
+          <p className="text-white/55 sans font-medium text-sm uppercase tracking-widest mb-5">
+            Система в стадии тестирования • Не является офертой
+          </p>
+          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black mb-6">
+            Войди в систему<br />раньше рынка
+          </h2>
+          <p className="text-white/70 text-lg max-w-xl mx-auto leading-relaxed mb-10 sans">
+            КМ — цифровой ключ системы. Вход в контур будущего пайщика. Место в очереди, которая движется по другой логике.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button size="lg" className="bg-accent hover:bg-accent/90 text-white sans font-bold text-base px-10 h-14">
+              Получить КМ
+            </Button>
+            <Button size="lg" variant="outline" className="border-white/40 text-white hover:bg-white/10 sans font-semibold text-base px-10 h-14">
               Написать нам
             </Button>
           </div>
-          <div className="flex items-center justify-center gap-3 text-xs text-muted-foreground font-mono">
-            <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
-            <span>Открытие первых программ участия — Май 2026</span>
-          </div>
+          <p className="text-white/35 text-sm mt-8 sans">
+            Открытие первых программ участия — Май 2026
+          </p>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="py-10 px-6 border-t border-border">
-        <div className="container mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono">
-            <div className="gradient-text font-bold text-base">КРИПТОМЕТРЫ</div>
-            <div className="text-muted-foreground text-center">
-              © 2026 • Народная система жилья нового типа.<br className="md:hidden" />
-              {' '}Экспериментальная стадия.
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span className="text-muted-foreground">Блок #{blockHeight}</span>
-            </div>
+      <footer className="bg-foreground text-background py-12 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <p className="serif text-xl font-black">КриптоМетры</p>
+            <p className="text-white/35 text-xs sans mt-1">Народная система жилья нового типа</p>
           </div>
+          <div className="flex flex-wrap justify-center gap-6">
+            {navItems.map(n => (
+              <button
+                key={n.id}
+                onClick={() => scroll(n.id)}
+                className="text-xs text-white/45 hover:text-white transition-colors sans"
+              >
+                {n.label}
+              </button>
+            ))}
+          </div>
+          <p className="text-white/25 text-xs sans">© 2026 КриптоМетры</p>
         </div>
       </footer>
+
     </div>
   );
-};
-
-export default Index;
+}
