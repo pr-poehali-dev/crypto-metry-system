@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700&family=Manrope:wght@200;300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,700;1,9..144,900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700;1,9..144,900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -12,8 +12,8 @@
     --bg-2: 60 2% 21%; /* #353534 */
     --ink: 80 100% 99%; /* #fdfffc */
     --haze: 203 27% 77%; /* #b4cad6 */
-    --neon: 168 100% 50%; /* #00ffcc */
-    --neon-2: 168 100% 44%; /* #00e0b3 */
+    --neon: 164 95% 62%; /* #3dffc4 — мягкий аква-мятный */
+    --neon-2: 164 90% 54%; /* #1af5b5 */
 
     --background: var(--bg-0);
     --foreground: var(--ink);
@@ -59,24 +59,24 @@
   body {
     @apply bg-background text-foreground;
     font-family:
-      "Manrope",
       "Jura",
+      "Space Grotesk",
       -apple-system,
       BlinkMacSystemFont,
       sans-serif;
     font-weight: 400;
-    letter-spacing: 0.005em;
+    letter-spacing: 0.01em;
     -webkit-font-smoothing: antialiased;
     background-color: #131313;
     background-image:
       radial-gradient(
         ellipse at 15% 0%,
-        hsla(168, 100%, 50%, 0.08) 0%,
+        hsla(164, 95%, 62%, 0.07) 0%,
         transparent 55%
       ),
       radial-gradient(
         ellipse at 85% 100%,
-        hsla(168, 100%, 50%, 0.05) 0%,
+        hsla(164, 95%, 62%, 0.04) 0%,
         transparent 50%
       );
   }
@@ -84,22 +84,22 @@
   h1,
   h2,
   h3 {
-    font-family: "Fraunces", "Manrope", serif;
+    font-family: "Orbitron", "Jura", sans-serif;
     font-weight: 700;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.02em;
     line-height: 0.96;
   }
 
   h4,
   h5,
   h6 {
-    font-family: "Manrope", sans-serif;
+    font-family: "Jura", sans-serif;
     font-weight: 600;
-    letter-spacing: -0.005em;
+    letter-spacing: 0.02em;
   }
 
   ::selection {
-    background: hsla(168, 100%, 50%, 0.35);
+    background: hsla(164, 95%, 62%, 0.3);
     color: #fdfffc;
   }
 }
@@ -108,36 +108,34 @@
   /* ═══════════════════ TYPOGRAPHY ═══════════════════ */
 
   .display {
-    font-family: "Fraunces", "Manrope", serif;
+    font-family: "Orbitron", "Jura", sans-serif;
     font-weight: 800;
-    font-variation-settings: "opsz" 144;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.02em;
     line-height: 0.9;
   }
 
   .display-soft {
-    font-family: "Fraunces", "Manrope", serif;
+    font-family: "Orbitron", "Jura", sans-serif;
     font-weight: 400;
-    font-variation-settings: "opsz" 144;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.01em;
     line-height: 1;
   }
 
   .display-italic {
-    font-family: "Fraunces", "Manrope", serif;
+    font-family: "Fraunces", serif;
     font-style: italic;
     font-weight: 700;
     font-variation-settings: "opsz" 144;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.03em;
     line-height: 0.95;
   }
 
   .serif {
-    font-family: "Fraunces", "Manrope", serif;
+    font-family: "Orbitron", "Jura", sans-serif;
     font-weight: 700;
   }
   .sans {
-    font-family: "Manrope", sans-serif;
+    font-family: "Jura", "Space Grotesk", sans-serif;
   }
   .mono-tech {
     font-family: "Jura", sans-serif;
@@ -146,7 +144,7 @@
 
   .kicker {
     font-family: "Jura", sans-serif;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.72rem;
     letter-spacing: 0.3em;
     text-transform: uppercase;
@@ -163,13 +161,11 @@
   }
 
   .number-xxl {
-    font-family: "Fraunces", serif;
-    font-variation-settings: "opsz" 144;
-    font-weight: 800;
-    font-style: italic;
-    font-size: clamp(5rem, 14vw, 12rem);
-    line-height: 0.82;
-    letter-spacing: -0.05em;
+    font-family: "Orbitron", "Jura", sans-serif;
+    font-weight: 900;
+    font-size: clamp(4rem, 12vw, 11rem);
+    line-height: 0.85;
+    letter-spacing: -0.03em;
   }
 
   /* ═══════════════════ NEON & TEXT ═══════════════════ */
@@ -177,8 +173,8 @@
   .text-neon {
     color: hsl(var(--neon));
     text-shadow:
-      0 0 32px hsla(168, 100%, 50%, 0.4),
-      0 0 64px hsla(168, 100%, 50%, 0.2);
+      0 0 32px hsla(164, 95%, 62%, 0.4),
+      0 0 64px hsla(164, 95%, 62%, 0.2);
   }
 
   .text-ink {
@@ -189,7 +185,7 @@
   }
 
   .neon-grad {
-    background: linear-gradient(135deg, #fdfffc 0%, #fdfffc 50%, #00ffcc 100%);
+    background: linear-gradient(135deg, #fdfffc 0%, #fdfffc 50%, #3dffc4 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -200,7 +196,7 @@
     font-style: italic;
     font-weight: 600;
     color: hsl(var(--neon));
-    text-shadow: 0 0 40px hsla(168, 100%, 50%, 0.35);
+    text-shadow: 0 0 40px hsla(164, 95%, 62%, 0.3);
   }
 
   /* ═══════════════════ GLASS / SURFACES ═══════════════════ */
@@ -213,9 +209,9 @@
     );
     backdrop-filter: blur(24px) saturate(140%);
     -webkit-backdrop-filter: blur(24px) saturate(140%);
-    border: 1px solid hsla(168, 40%, 50%, 0.08);
+    border: 1px solid hsla(164, 40%, 50%, 0.08);
     box-shadow:
-      0 1px 0 hsla(168, 100%, 80%, 0.04) inset,
+      0 1px 0 hsla(164, 95%, 80%, 0.04) inset,
       0 24px 60px -30px hsla(0, 0%, 0%, 0.7);
   }
 
@@ -227,14 +223,14 @@
     );
     backdrop-filter: blur(32px) saturate(160%);
     -webkit-backdrop-filter: blur(32px) saturate(160%);
-    border: 1px solid hsla(168, 40%, 50%, 0.14);
+    border: 1px solid hsla(164, 40%, 50%, 0.14);
   }
 
   .glass-lite {
     background: hsla(0, 0%, 10%, 0.55);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid hsla(168, 40%, 60%, 0.06);
+    border: 1px solid hsla(164, 40%, 60%, 0.06);
   }
 
   .panel-tonal {
@@ -258,7 +254,7 @@
     padding: 1px;
     background: linear-gradient(
       135deg,
-      hsla(168, 80%, 60%, 0.1) 0%,
+      hsla(164, 80%, 62%, 0.1) 0%,
       hsla(0, 0%, 100%, 0.04) 40%,
       transparent 60%
     );
@@ -273,8 +269,8 @@
   .rim-hover:hover::before {
     background: linear-gradient(
       135deg,
-      hsla(168, 100%, 60%, 0.6) 0%,
-      hsla(168, 100%, 60%, 0.1) 40%,
+      hsla(164, 95%, 62%, 0.55) 0%,
+      hsla(164, 95%, 62%, 0.1) 40%,
       transparent 70%
     );
   }
@@ -282,23 +278,23 @@
   .rim-hover:hover {
     transform: translateY(-4px);
     box-shadow:
-      0 30px 80px -30px hsla(168, 100%, 50%, 0.25),
-      0 0 0 1px hsla(168, 100%, 50%, 0.2);
+      0 30px 80px -30px hsla(164, 95%, 62%, 0.22),
+      0 0 0 1px hsla(164, 95%, 62%, 0.18);
   }
 
   /* ═══════════════════ BUTTONS ═══════════════════ */
 
   .btn-neon {
     position: relative;
-    background: linear-gradient(135deg, #00ffcc 0%, #00e0b3 100%);
+    background: linear-gradient(135deg, #3dffc4 0%, #1af5b5 100%);
     color: #0a0a0a;
     font-family: "Jura", sans-serif;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     box-shadow:
-      0 0 0 1px hsla(168, 100%, 60%, 0.6),
-      0 16px 40px -8px hsla(168, 100%, 50%, 0.6),
+      0 0 0 1px hsla(164, 95%, 62%, 0.5),
+      0 16px 40px -8px hsla(164, 95%, 62%, 0.45),
       inset 0 1px 0 hsla(0, 0%, 100%, 0.3);
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     overflow: hidden;
@@ -319,8 +315,8 @@
   .btn-neon:hover {
     transform: translateY(-3px);
     box-shadow:
-      0 0 0 1px hsla(168, 100%, 70%, 0.9),
-      0 24px 60px -8px hsla(168, 100%, 50%, 0.9),
+      0 0 0 1px hsla(164, 95%, 70%, 0.8),
+      0 24px 60px -8px hsla(164, 95%, 62%, 0.75),
       inset 0 1px 0 hsla(0, 0%, 100%, 0.45);
   }
   .btn-neon:hover::after {
@@ -339,9 +335,9 @@
     transition: all 0.35s ease;
   }
   .btn-ghost:hover {
-    background: hsla(168, 100%, 50%, 0.08);
-    border-color: hsla(168, 100%, 50%, 0.6);
-    box-shadow: 0 0 32px -4px hsla(168, 100%, 50%, 0.3);
+    background: hsla(164, 95%, 62%, 0.07);
+    border-color: hsla(164, 95%, 62%, 0.5);
+    box-shadow: 0 0 32px -4px hsla(164, 95%, 62%, 0.25);
   }
 
   /* ═══════════════════ CHIPS ═══════════════════ */
@@ -351,9 +347,9 @@
     align-items: center;
     gap: 0.55rem;
     padding: 0.45rem 0.95rem;
-    background: hsla(168, 100%, 50%, 0.06);
+    background: hsla(164, 95%, 62%, 0.06);
     backdrop-filter: blur(16px);
-    border: 1px solid hsla(168, 100%, 50%, 0.28);
+    border: 1px solid hsla(164, 95%, 62%, 0.25);
     border-radius: 9999px;
     color: hsl(var(--neon));
     font-family: "Jura", sans-serif;
@@ -362,8 +358,8 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     box-shadow:
-      0 0 28px hsla(168, 100%, 50%, 0.15),
-      inset 0 1px 0 hsla(168, 100%, 80%, 0.1);
+      0 0 24px hsla(164, 95%, 62%, 0.12),
+      inset 0 1px 0 hsla(164, 95%, 80%, 0.08);
   }
 
   .chip-dot {
@@ -408,7 +404,7 @@
       ),
       radial-gradient(
         ellipse at 30% 60%,
-        hsla(168, 100%, 50%, 0.12) 0%,
+        hsla(164, 95%, 62%, 0.1) 0%,
         transparent 60%
       );
     pointer-events: none;
@@ -466,7 +462,7 @@
     border-radius: 9999px;
     background: radial-gradient(
       circle,
-      hsla(168, 100%, 50%, 0.55) 0%,
+      hsla(164, 95%, 62%, 0.45) 0%,
       transparent 65%
     );
     filter: blur(90px);
@@ -479,7 +475,7 @@
     border-radius: 9999px;
     background: radial-gradient(
       circle,
-      hsla(168, 100%, 50%, 0.4) 0%,
+      hsla(164, 95%, 62%, 0.32) 0%,
       transparent 70%
     );
     filter: blur(60px);
@@ -488,8 +484,8 @@
 
   .grid-faint {
     background-image:
-      linear-gradient(hsla(168, 40%, 50%, 0.045) 1px, transparent 1px),
-      linear-gradient(90deg, hsla(168, 40%, 50%, 0.045) 1px, transparent 1px);
+      linear-gradient(hsla(164, 40%, 50%, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, hsla(164, 40%, 50%, 0.04) 1px, transparent 1px);
     background-size: 72px 72px;
   }
 
@@ -501,8 +497,8 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(hsla(168, 40%, 50%, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, hsla(168, 40%, 50%, 0.06) 1px, transparent 1px);
+      linear-gradient(hsla(164, 40%, 50%, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsla(164, 40%, 50%, 0.05) 1px, transparent 1px);
     background-size: 64px 64px;
     mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
     -webkit-mask-image: radial-gradient(
@@ -518,7 +514,7 @@
     background: linear-gradient(
       to right,
       transparent,
-      hsla(168, 100%, 50%, 0.45),
+      hsla(164, 95%, 62%, 0.38),
       transparent
     );
   }
@@ -551,7 +547,7 @@
     bottom: 0.3em;
     width: 2px;
     background: hsl(var(--neon));
-    box-shadow: 0 0 18px hsla(168, 100%, 50%, 0.6);
+    box-shadow: 0 0 18px hsla(164, 95%, 62%, 0.5);
   }
 
   /* watermark from logo geometry */
@@ -563,15 +559,15 @@
       linear-gradient(
         135deg,
         transparent 30%,
-        #00ffcc 30%,
-        #00ffcc 32%,
+        #3dffc4 30%,
+        #3dffc4 32%,
         transparent 32%
       ),
       linear-gradient(
         45deg,
         transparent 30%,
-        #00ffcc 30%,
-        #00ffcc 32%,
+        #3dffc4 30%,
+        #3dffc4 32%,
         transparent 32%
       );
     background-size: 220px 220px;
@@ -677,10 +673,10 @@
   @keyframes ring-pulse {
     0%,
     100% {
-      box-shadow: 0 0 0 0 hsla(168, 100%, 50%, 0.5);
+      box-shadow: 0 0 0 0 hsla(164, 95%, 62%, 0.45);
     }
     50% {
-      box-shadow: 0 0 0 16px hsla(168, 100%, 50%, 0);
+      box-shadow: 0 0 0 16px hsla(164, 95%, 62%, 0);
     }
   }
   @keyframes line-draw {
@@ -744,7 +740,7 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      hsla(168, 100%, 50%, 0.2) 50%,
+      hsla(164, 95%, 62%, 0.18) 50%,
       transparent 100%
     );
     background-size: 200% 100%;
@@ -762,7 +758,7 @@
     background: linear-gradient(
       120deg,
       transparent 30%,
-      hsla(168, 100%, 70%, 0.15) 50%,
+      hsla(164, 95%, 72%, 0.12) 50%,
       transparent 70%
     );
     animation: light-sweep 6s ease-in-out infinite;
@@ -778,7 +774,7 @@
   /* ═══════════════════ BRAND GRADIENT ═══════════════════ */
 
   .brand-grad {
-    background: linear-gradient(135deg, #00ffcc 0%, #00e0b3 50%, #00ffcc 100%);
+    background: linear-gradient(135deg, #3dffc4 0%, #1af5b5 50%, #3dffc4 100%);
     background-size: 200% 200%;
     animation: shimmer 8s linear infinite;
   }
@@ -793,12 +789,12 @@
     background: #0d0d0d;
   }
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #00ffcc 0%, #00e0b3 100%);
+    background: linear-gradient(180deg, #3dffc4 0%, #1af5b5 100%);
     border-radius: 8px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #00ffcc;
+    background: #3dffc4;
   }
 
   .accent-bar {

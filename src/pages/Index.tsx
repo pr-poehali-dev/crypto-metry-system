@@ -45,7 +45,7 @@ function Ticker() {
             ].map(t => (
               <span key={t + k} className="flex items-center gap-10 serif italic text-2xl whitespace-nowrap text-ink/80">
                 {t}
-                <span className="w-1.5 h-1.5 bg-[hsl(var(--neon))] rounded-full shrink-0" style={{ boxShadow: '0 0 12px currentColor' }} />
+                <span className="w-1.5 h-1.5 bg-[hsl(var(--neon))] rounded-full shrink-0" style={{ boxShadow: '0 0 10px #3dffc4' }} />
               </span>
             ))}
           </div>
@@ -138,7 +138,7 @@ export default function Index() {
 
         {/* scan line */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-[5] opacity-30">
-          <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--neon))] to-transparent" style={{ animation: 'scan-line 8s linear infinite' }} />
+          <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[#3dffc4] to-transparent" style={{ animation: 'scan-line 8s linear infinite' }} />
         </div>
 
         <div className="relative z-10 h-full max-w-[1500px] mx-auto px-6 lg:px-10 flex flex-col justify-end pb-32 pt-28">
@@ -189,7 +189,7 @@ export default function Index() {
               { val: '100%',    sub: 'аккредитованы',    icon: 'ShieldCheck' },
             ].map(s => (
               <div key={s.val} className="px-4 sm:px-6 flex items-center gap-3 sm:gap-4">
-                <div className="w-11 h-11 rounded-full bg-[hsl(var(--neon))]/10 flex items-center justify-center shrink-0 border border-[hsl(var(--neon))]/40" style={{ boxShadow: '0 0 24px hsla(168,100%,50%,0.25)' }}>
+                <div className="w-11 h-11 rounded-full bg-[hsl(var(--neon))]/10 flex items-center justify-center shrink-0 border border-[hsl(var(--neon))]/40" style={{ boxShadow: '0 0 24px hsla(164,95%,62%,0.22)' }}>
                   <Icon name={s.icon} size={17} className="text-neon" />
                 </div>
                 <div>
@@ -282,7 +282,7 @@ export default function Index() {
             <h2 className="display text-[14vw] lg:text-[11rem] leading-[0.88] neon-grad">
               Вы не дольщик.
             </h2>
-            <h2 className="display-italic text-[14vw] lg:text-[11rem] leading-[0.88] text-neon mt-1" style={{ textShadow: '0 0 80px hsla(168,100%,50%,0.35)' }}>
+            <h2 className="display-italic text-[14vw] lg:text-[11rem] leading-[0.88] text-neon mt-1" style={{ textShadow: '0 0 80px hsla(164,95%,62%,0.3)' }}>
               Вы — заказчик.
             </h2>
             <p className="text-haze/70 text-xl max-w-2xl mx-auto mt-8 leading-relaxed">
@@ -318,12 +318,12 @@ export default function Index() {
             </div>
 
             {/* New model */}
-            <div className="relative rounded-3xl p-10 lg:p-12 overflow-hidden glass-strong rim rim-hover light-sweep" style={{ borderColor: 'hsla(168,100%,50%,0.3)' }}>
+            <div className="relative rounded-3xl p-10 lg:p-12 overflow-hidden glass-strong rim rim-hover light-sweep" style={{ borderColor: 'hsla(164,95%,62%,0.28)' }}>
               <span className="absolute top-6 right-6 mono-tech text-[10px] uppercase tracking-[0.3em] text-neon/80">New model</span>
               <div className="absolute -right-20 -top-20 w-80 h-80 bg-[hsl(var(--neon))]/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 bg-[hsl(var(--neon))] rounded-xl flex items-center justify-center animate-ring" style={{ boxShadow: '0 0 40px hsla(168,100%,50%,0.6)' }}>
+                <div className="w-14 h-14 bg-[hsl(var(--neon))] rounded-xl flex items-center justify-center animate-ring" style={{ boxShadow: '0 0 40px hsla(164,95%,62%,0.5)' }}>
                   <Icon name="UserCheck" size={24} className="text-black" />
                 </div>
                 <span className="kicker">Новый путь</span>
@@ -399,9 +399,9 @@ export default function Index() {
             <svg className="absolute inset-0 w-full h-full pointer-events-none hidden lg:block z-0" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="ln" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%"   stopColor="#00ffcc" stopOpacity="0" />
-                  <stop offset="50%"  stopColor="#00ffcc" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#00ffcc" stopOpacity="0" />
+                  <stop offset="0%"   stopColor="#3dffc4" stopOpacity="0" />
+                  <stop offset="50%"  stopColor="#3dffc4" stopOpacity="0.5" />
+                  <stop offset="100%" stopColor="#3dffc4" stopOpacity="0" />
                 </linearGradient>
               </defs>
               <line x1="25%" y1="50%" x2="50%" y2="50%" stroke="url(#ln)" strokeWidth="1" />
@@ -601,7 +601,7 @@ export default function Index() {
                           <span>{x.l}</span><span className="text-neon">{x.p}%</span>
                         </div>
                         <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                          <div className="h-full bg-gradient-to-r from-[#00ffcc] to-[#00e0b3] rounded-full" style={{ width: `${x.p}%`, boxShadow: '0 0 10px #00ffcc' }} />
+                          <div className="h-full bg-gradient-to-r from-[#3dffc4] to-[#1af5b5] rounded-full" style={{ width: `${x.p}%`, boxShadow: '0 0 10px #3dffc4' }} />
                         </div>
                       </div>
                     ))}
@@ -689,7 +689,7 @@ export default function Index() {
 
               <div className="glass rim rim-hover rounded-3xl p-10 relative overflow-hidden">
                 <div className="flex items-start gap-5 relative">
-                  <div className="w-14 h-14 bg-[hsl(var(--neon))] rounded-2xl flex items-center justify-center shrink-0" style={{ boxShadow: '0 0 40px hsla(168,100%,50%,0.6)' }}>
+                  <div className="w-14 h-14 bg-[hsl(var(--neon))] rounded-2xl flex items-center justify-center shrink-0" style={{ boxShadow: '0 0 40px hsla(164,95%,62%,0.5)' }}>
                     <Icon name="Sparkles" size={24} className="text-black" />
                   </div>
                   <div>
