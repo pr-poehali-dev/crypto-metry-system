@@ -128,10 +128,15 @@ export default function Index() {
       </header>
 
       {/* ═══════════ HERO ═══════════ */}
-      <section id="hero" className="relative h-screen min-h-[820px] overflow-hidden">
-        <div className="absolute inset-0 img-cover">
+      <section id="hero" className="relative min-h-[900px] h-screen overflow-hidden bg-[#0d0d0d]">
+        {/* image on the right side */}
+        <div className="absolute inset-0">
           <img src={IMG.hero} alt="Архитектурный квартал" className="w-full h-full object-cover scale-105 animate-fade-in" />
         </div>
+
+        {/* protective gradient — затемнение текстовой зоны */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/75 to-[#0a0a0a]/10 lg:from-[#0a0a0a] lg:via-[#0a0a0a]/70 lg:to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/50 pointer-events-none" />
 
         <div className="orb w-[620px] h-[620px] top-20 -left-40 animate-glow" />
         <div className="orb w-[480px] h-[480px] bottom-40 right-0 animate-glow" style={{ animationDelay: '2.5s' }} />
@@ -141,46 +146,45 @@ export default function Index() {
           <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[#3dffc4] to-transparent" style={{ animation: 'scan-line 8s linear infinite' }} />
         </div>
 
-        <div className="relative z-10 h-full max-w-[1500px] mx-auto px-6 lg:px-10 flex flex-col justify-end pb-32 pt-28">
+        <div className="relative z-10 h-full max-w-[1500px] mx-auto px-6 lg:px-10 flex flex-col justify-center pt-28 pb-36">
           <div className="animate-fade-up">
-            <span className="chip mb-10">
+            <span className="chip mb-8">
               <span className="chip-dot" />
               Майнинг метров · Запуск · Май 2026
             </span>
           </div>
 
-          <h1 className="display text-[14vw] sm:text-[11vw] lg:text-[10rem] xl:text-[12rem] max-w-[1300px] neon-grad animate-fade-up-1">
-            Майним
-            <span className="block display-italic text-neon mt-[-0.08em]">
+          <h1 className="display text-[13vw] sm:text-[10vw] lg:text-[8.5rem] xl:text-[10rem] max-w-[1100px] leading-[0.88] animate-fade-up-1">
+            <span className="neon-grad">Майним</span>
+            <span className="block display-italic text-neon mt-[-0.04em]" style={{ textShadow: '0 0 60px hsla(164,95%,62%,0.35)' }}>
               недвижимость
             </span>
           </h1>
 
-          <div className="mt-12 grid lg:grid-cols-12 gap-8 items-end animate-fade-up-2">
-            <div className="lg:col-span-7">
-              <div className="bar-neon mb-6" />
-              <p className="text-haze/90 text-xl lg:text-2xl max-w-2xl leading-relaxed font-light">
-                Архитектурная платформа, где устал переплачивать — и решил строить по уму.
-                Зайди в систему <span className="italic-accent">раньше рынка</span>, объединись с другими,
-                получи жильё как <span className="text-ink font-semibold">будущий заказчик</span>.
-              </p>
-            </div>
+          <div className="mt-10 max-w-2xl animate-fade-up-2">
+            <div className="bar-neon mb-6" />
+            <p className="text-ink/90 text-lg lg:text-xl leading-relaxed font-light">
+              Архитектурная платформа для тех, кто устал переплачивать —
+              и решил строить по уму. Входи в систему{' '}
+              <span className="italic-accent">раньше рынка</span>,
+              получай жильё как <span className="text-ink font-semibold">будущий заказчик</span>.
+            </p>
+          </div>
 
-            <div className="lg:col-span-5 flex flex-wrap gap-4 lg:justify-end">
-              <Button size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md" onClick={() => scroll('join')}>
-                Получить КМ
-                <Icon name="ArrowUpRight" size={18} className="ml-2" />
-              </Button>
-              <Button size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md" onClick={() => scroll('idea')}>
-                <Icon name="Play" size={15} className="mr-2" />
-                Что это такое
-              </Button>
-            </div>
+          <div className="mt-10 flex flex-wrap gap-4 animate-fade-up-3">
+            <Button size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md" onClick={() => scroll('join')}>
+              Получить КМ
+              <Icon name="ArrowUpRight" size={18} className="ml-2" />
+            </Button>
+            <Button size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md" onClick={() => scroll('idea')}>
+              <Icon name="Play" size={15} className="mr-2" />
+              Что это такое
+            </Button>
           </div>
         </div>
 
         {/* bottom stats bar */}
-        <div className="absolute bottom-0 inset-x-0 z-10 border-t border-[hsl(168_100%_50%/0.22)] glass-strong">
+        <div className="absolute bottom-0 inset-x-0 z-10 border-t border-[hsla(164,95%,62%,0.22)] glass-strong">
           <div className="max-w-[1500px] mx-auto px-6 lg:px-10 py-6 grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
             {[
               { val: 'до −30%', sub: 'ниже рынка',       icon: 'TrendingDown' },
