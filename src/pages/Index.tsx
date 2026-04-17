@@ -43,7 +43,7 @@ function Ticker() {
               'Платим за работу — не за обещания',
               'Майним метры',
             ].map(t => (
-              <span key={t + k} className="flex items-center gap-10 serif italic text-2xl whitespace-nowrap text-ink/80">
+              <span key={t + k} className="flex items-center gap-10 serif text-2xl whitespace-nowrap text-ink/80">
                 {t}
                 <span className="w-1.5 h-1.5 bg-[hsl(var(--neon))] rounded-full shrink-0" style={{ boxShadow: '0 0 10px #3dffc4' }} />
               </span>
@@ -428,7 +428,7 @@ export default function Index() {
 
                 <div className="relative z-10 p-7 h-full flex flex-col justify-between text-ink">
                   <div className="flex items-start justify-between">
-                    <span className="serif italic text-5xl font-bold text-[hsl(var(--neon))]/60">{card.n}</span>
+                    <span className="serif text-5xl font-bold text-[hsl(var(--neon))]/60">{card.n}</span>
                     <div className="w-10 h-10 rounded-lg bg-[hsl(var(--neon))]/10 border border-[hsl(var(--neon))]/30 flex items-center justify-center">
                       <Icon name={card.icon} size={16} className="text-neon" />
                     </div>

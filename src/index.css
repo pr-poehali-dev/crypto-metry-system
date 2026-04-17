@@ -122,11 +122,10 @@
   }
 
   .display-italic {
-    font-family: "Fraunces", serif;
-    font-style: italic;
+    font-family: "Orbitron", "Jura", sans-serif;
+    font-style: normal;
     font-weight: 700;
-    font-variation-settings: "opsz" 144;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
     line-height: 0.95;
   }
 
@@ -192,9 +191,9 @@
   }
 
   .italic-accent {
-    font-family: "Fraunces", serif;
-    font-style: italic;
-    font-weight: 600;
+    font-family: "Orbitron", "Jura", sans-serif;
+    font-style: normal;
+    font-weight: 700;
     color: hsl(var(--neon));
     text-shadow: 0 0 40px hsla(164, 95%, 62%, 0.3);
   }
