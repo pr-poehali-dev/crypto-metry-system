@@ -185,6 +185,10 @@ const MiningKvartiry = () => {
             <Link to="/" className="text-sm text-haze/80 hover:text-ink transition-colors px-4 py-2">
               ← На главную
             </Link>
+            <Link to="/cabinet" className="text-sm text-haze/80 hover:text-ink transition-colors px-4 py-2 flex items-center gap-2">
+              <Icon name="User" size={14} />
+              Кабинет
+            </Link>
             <Button onClick={openForm} className="btn-neon h-11 px-6 rounded-md text-[12px]">
               Начать майнить
               <Icon name="ArrowUpRight" size={14} className="ml-2" />
@@ -659,9 +663,17 @@ const MiningKvartiry = () => {
                     ))}
                   </div>
                 )}
-                <Button onClick={closeForm} className="btn-neon h-12 px-8 rounded-md text-[12px]">
-                  Отлично
-                </Button>
+                <div className="flex flex-wrap gap-3 justify-center">
+                  <Link to="/cabinet">
+                    <Button className="btn-neon h-12 px-7 rounded-md text-[12px]">
+                      <Icon name="User" size={14} className="mr-2" />
+                      Перейти в кабинет
+                    </Button>
+                  </Link>
+                  <Button onClick={closeForm} className="btn-ghost h-12 px-7 rounded-md text-[12px]">
+                    Закрыть
+                  </Button>
+                </div>
               </div>
             ) : (
               <form onSubmit={submit} className="p-8 md:p-10">

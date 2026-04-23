@@ -106,6 +106,10 @@ export default function Index() {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
+            <Link to="/cabinet" className="mono-tech text-[11px] uppercase tracking-[0.2em] text-haze/80 hover:text-neon transition-colors flex items-center gap-2 px-2">
+              <Icon name="User" size={14} />
+              Кабинет
+            </Link>
             <Button size="sm" className="btn-neon h-10 px-6 rounded-md text-[11px]" onClick={() => scroll('join')}>
               Получить КМ
               <Icon name="ArrowRight" size={14} className="ml-2" />

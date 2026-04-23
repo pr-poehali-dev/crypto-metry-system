@@ -1,0 +1,45 @@
+{
+  "tests": [
+    {
+      "name": "CORS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Reject without email",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 400,
+      "expectedBody": {"error": "string"},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Reject invalid email",
+      "method": "GET",
+      "path": "/?email=invalid",
+      "expectedStatus": 400,
+      "expectedBody": {"error": "string"},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Not found for unknown user",
+      "method": "GET",
+      "path": "/?email=nobody-xyz-999@example.com",
+      "expectedStatus": 404,
+      "expectedBody": {"error": "string"},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Return cabinet for existing user",
+      "method": "GET",
+      "path": "/?email=test-mining-1@example.com",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "ok": true,
+        "goal_km": 500
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
