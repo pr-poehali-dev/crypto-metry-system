@@ -1,0 +1,72 @@
+{
+  "tests": [
+    {
+      "name": "CORS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Reject without email",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Test"},
+      "expectedStatus": 400,
+      "expectedBody": {"error": "string"},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Create new participant with full survey",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "email": "test-mining-1@example.com",
+        "name": "Тест Тестов",
+        "phone": "+79991234567",
+        "city": "Москва",
+        "district": "Центр",
+        "housing_format": "2-комнатная",
+        "budget": "5-7 млн",
+        "timeline": "1-2 года",
+        "life_scenario": "Семья с ребёнком",
+        "priorities": "Двор, школа, транспорт"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "ok": true,
+        "is_new": true,
+        "km_awarded": 0.35
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Duplicate submission does not double-award",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "email": "test-mining-1@example.com",
+        "city": "Москва",
+        "district": "Юг",
+        "housing_format": "3-комнатная",
+        "budget": "7-10 млн",
+        "timeline": "2-3 года"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "ok": true,
+        "is_new": false,
+        "km_awarded": 0
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Reject invalid email",
+      "method": "POST",
+      "path": "/",
+      "body": {"email": "not-an-email"},
+      "expectedStatus": 400,
+      "expectedBody": {"error": "string"},
+      "bodyMatcher": "partial"
+    }
+  ]
+}

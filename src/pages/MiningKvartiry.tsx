@@ -1,7 +1,34 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { useReveal } from '@/hooks/useReveal';
+import { useToast } from '@/hooks/use-toast';
+import func2url from '../../backend/func2url.json';
+
+const SURVEY_URL = (func2url as Record<string, string>)['apartment-survey'];
+
+type SurveyForm = {
+  name: string;
+  email: string;
+  phone: string;
+  city: string;
+  district: string;
+  housing_format: string;
+  budget: string;
+  timeline: string;
+  life_scenario: string;
+  priorities: string;
+};
+
+type SurveyResponse = {
+  ok: boolean;
+  km_awarded: number;
+  km_balance: number;
+  level: string;
+  is_new: boolean;
+  breakdown: Array<{ reason: string; amount: number; label: string }>;
+};
 
 const LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
 const HERO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/d4c1c38f-bf46-4eb1-a5a1-9e0187887e75.jpg';
@@ -13,8 +40,62 @@ const Section: React.FC<React.PropsWithChildren<{ id?: string; className?: strin
   </section>
 );
 
+const EMPTY_FORM: SurveyForm = {
+  name: '', email: '', phone: '',
+  city: '', district: '', housing_format: '', budget: '', timeline: '',
+  life_scenario: '', priorities: '',
+};
+
 const MiningKvartiry = () => {
   useReveal();
+  const { toast } = useToast();
+  const [open, setOpen] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [form, setForm] = useState<SurveyForm>(EMPTY_FORM);
+  const [result, setResult] = useState<SurveyResponse | null>(null);
+
+  const update = (k: keyof SurveyForm) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const openForm = () => {
+    setResult(null);
+    setOpen(true);
+  };
+
+  const closeForm = () => {
+    setOpen(false);
+    if (result) setForm(EMPTY_FORM);
+  };
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.email.includes('@')) {
+      toast({ title: 'Неверный email', description: 'Проверь адрес почты.', variant: 'destructive' });
+      return;
+    }
+    setSending(true);
+    try {
+      const res = await fetch(SURVEY_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data: SurveyResponse & { error?: string } = await res.json();
+      if (!res.ok || !data.ok) {
+        toast({ title: 'Не получилось отправить', description: data.error || 'Попробуй ещё раз.', variant: 'destructive' });
+        return;
+      }
+      setResult(data);
+      toast({
+        title: data.km_awarded > 0 ? `+${data.km_awarded} КМ начислено` : 'Анкета сохранена',
+        description: `Баланс: ${data.km_balance} КМ`,
+      });
+    } catch {
+      toast({ title: 'Ошибка сети', description: 'Проверь соединение и попробуй снова.', variant: 'destructive' });
+    } finally {
+      setSending(false);
+    }
+  };
 
   const tasks = [
     { label: 'Регистрация',                  val: 'до 0,10 КМ', icon: 'UserPlus' },
@@ -104,7 +185,7 @@ const MiningKvartiry = () => {
             <Link to="/" className="text-sm text-haze/80 hover:text-ink transition-colors px-4 py-2">
               ← На главную
             </Link>
-            <Button className="btn-neon h-11 px-6 rounded-md text-[12px]">
+            <Button onClick={openForm} className="btn-neon h-11 px-6 rounded-md text-[12px]">
               Начать майнить
               <Icon name="ArrowUpRight" size={14} className="ml-2" />
             </Button>
@@ -157,11 +238,11 @@ const MiningKvartiry = () => {
           </div>
 
           <div className="mt-10 flex flex-wrap gap-4 animate-fade-up-3">
-            <Button size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
+            <Button onClick={openForm} size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
               Начать майнить
               <Icon name="ArrowUpRight" size={18} className="ml-2" />
             </Button>
-            <Button size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md">
+            <Button onClick={openForm} size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md">
               <Icon name="ClipboardList" size={16} className="mr-2" />
               Заполнить анкету квартиры
             </Button>
@@ -288,7 +369,7 @@ const MiningKvartiry = () => {
               Мы аккуратно спросим о том, что важно для твоего жилья. Ответы — основа твоего
               профиля спроса и будущего подбора проектов.
             </p>
-            <Button size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
+            <Button onClick={openForm} size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
               Заполнить анкету квартиры
               <Icon name="ArrowUpRight" size={18} className="ml-2" />
             </Button>
@@ -481,11 +562,11 @@ const MiningKvartiry = () => {
           </h2>
 
           <div className="flex flex-wrap gap-4 justify-center reveal">
-            <Button size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
+            <Button onClick={openForm} size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
               Начать майнить
               <Icon name="ArrowUpRight" size={18} className="ml-2" />
             </Button>
-            <Button size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md">
+            <Button onClick={openForm} size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md">
               <Icon name="ClipboardList" size={16} className="mr-2" />
               Заполнить анкету квартиры
             </Button>
@@ -529,8 +610,153 @@ const MiningKvartiry = () => {
           <div className="text-xs text-haze/50 tracking-wider">© КриптоМетр · Народная платформа жилья</div>
         </div>
       </footer>
+
+      {/* SURVEY MODAL */}
+      {open && (
+        <div
+          className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm flex items-start md:items-center justify-center p-4 md:p-8 overflow-y-auto"
+          onClick={closeForm}
+        >
+          <div
+            className="relative w-full max-w-2xl bg-[#0d0d0d] border border-[hsl(var(--neon))]/30 rounded-3xl shadow-2xl my-auto"
+            style={{ boxShadow: '0 0 80px hsla(164,95%,62%,0.15)' }}
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={closeForm}
+              className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-haze hover:text-ink transition"
+              aria-label="Закрыть"
+            >
+              <Icon name="X" size={18} />
+            </button>
+
+            {result ? (
+              <div className="p-8 md:p-12 text-center">
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-[hsl(var(--neon))]/15 border border-[hsl(var(--neon))]/50 flex items-center justify-center mb-6">
+                  <Icon name="CheckCircle2" size={28} className="text-neon" />
+                </div>
+                <div className="text-xs tracking-[0.22em] text-neon uppercase mb-3">Анкета принята</div>
+                <h3 className="display text-4xl md:text-5xl mb-6 leading-tight">
+                  <span className="display-italic text-neon">+{result.km_awarded} КМ</span> начислено
+                </h3>
+                <div className="glass rim rounded-2xl p-6 mb-6 inline-block min-w-[260px]">
+                  <div className="text-xs tracking-[0.18em] text-haze/60 uppercase mb-2">Твой баланс</div>
+                  <div className="display text-5xl text-ink mb-2">{result.km_balance} КМ</div>
+                  <div className="text-haze/70 text-sm">Уровень: <span className="text-neon font-semibold">{
+                    result.level === 'start' ? 'Старт' :
+                    result.level === 'profile' ? 'Профиль спроса' :
+                    result.level === 'confirmed' ? 'Подтверждённый участник' :
+                    result.level === 'core' ? 'Ядро спроса' : 'Следующий контур'
+                  }</span></div>
+                </div>
+                {result.breakdown.length > 0 && (
+                  <div className="space-y-2 mb-6 text-left max-w-sm mx-auto">
+                    {result.breakdown.map(b => (
+                      <div key={b.reason} className="flex items-center justify-between text-sm bg-white/[0.02] border border-white/5 rounded-xl px-4 py-3">
+                        <span className="text-haze/80">{b.label}</span>
+                        <span className="text-neon font-semibold">+{b.amount} КМ</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <Button onClick={closeForm} className="btn-neon h-12 px-8 rounded-md text-[12px]">
+                  Отлично
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={submit} className="p-8 md:p-10">
+                <div className="mb-6">
+                  <div className="text-xs tracking-[0.22em] text-neon uppercase mb-3">Анкета квартиры</div>
+                  <h3 className="display text-3xl md:text-4xl leading-tight">
+                    Расскажи,<br />
+                    <span className="display-italic text-neon">что тебе нужно.</span>
+                  </h3>
+                  <p className="text-haze/70 text-sm mt-3">
+                    За регистрацию +0,10 КМ, за подробную анкету ещё +0,25 КМ.
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-3 mb-3">
+                  <Field label="Имя" value={form.name} onChange={update('name')} placeholder="Как к тебе обращаться" />
+                  <Field label="Email *" value={form.email} onChange={update('email')} type="email" placeholder="you@mail.ru" required />
+                </div>
+                <div className="grid md:grid-cols-2 gap-3 mb-3">
+                  <Field label="Телефон" value={form.phone} onChange={update('phone')} placeholder="+7 ..." />
+                  <Field label="Город" value={form.city} onChange={update('city')} placeholder="Москва" />
+                </div>
+                <div className="grid md:grid-cols-2 gap-3 mb-3">
+                  <Field label="Район" value={form.district} onChange={update('district')} placeholder="Центр" />
+                  <SelectField label="Формат жилья" value={form.housing_format} onChange={update('housing_format')} options={['Студия', '1-комнатная', '2-комнатная', '3-комнатная', '4+ комнат', 'Дом']} />
+                </div>
+                <div className="grid md:grid-cols-2 gap-3 mb-3">
+                  <SelectField label="Бюджет" value={form.budget} onChange={update('budget')} options={['до 3 млн', '3–5 млн', '5–7 млн', '7–10 млн', '10–15 млн', '15+ млн']} />
+                  <SelectField label="Сроки" value={form.timeline} onChange={update('timeline')} options={['до 1 года', '1–2 года', '2–3 года', '3–5 лет', 'без спешки']} />
+                </div>
+                <TextareaField label="Сценарий жизни" value={form.life_scenario} onChange={update('life_scenario')} placeholder="Семья с детьми / пара / один / удалёнка..." />
+                <TextareaField label="Приоритеты" value={form.priorities} onChange={update('priorities')} placeholder="Двор, школа, транспорт, тишина, вид..." />
+
+                <Button type="submit" disabled={sending} className="btn-neon w-full h-14 rounded-md text-[12px] mt-2">
+                  {sending ? 'Отправляю...' : 'Отправить анкету и получить КМ'}
+                  {!sending && <Icon name="ArrowUpRight" size={16} className="ml-2" />}
+                </Button>
+                <p className="text-[11px] text-haze/50 mt-4 text-center leading-relaxed">
+                  Отправляя форму, ты соглашаешься с правилами программы. КМ — внутренняя единица учёта участия, не является денежным обязательством.
+                </p>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+
+const Field = ({ label, value, onChange, type = 'text', placeholder, required }: {
+  label: string; value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type?: string; placeholder?: string; required?: boolean;
+}) => (
+  <label className="block">
+    <span className="text-[11px] tracking-[0.16em] text-haze/60 uppercase mb-1.5 block">{label}</span>
+    <input
+      type={type}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      required={required}
+      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-ink placeholder-haze/40 focus:border-[hsl(var(--neon))]/60 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--neon))]/20 transition"
+    />
+  </label>
+);
+
+const SelectField = ({ label, value, onChange, options }: {
+  label: string; value: string; onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void; options: string[];
+}) => (
+  <label className="block">
+    <span className="text-[11px] tracking-[0.16em] text-haze/60 uppercase mb-1.5 block">{label}</span>
+    <select
+      value={value}
+      onChange={onChange}
+      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-ink focus:border-[hsl(var(--neon))]/60 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--neon))]/20 transition"
+    >
+      <option value="" className="bg-[#0d0d0d]">— выбери —</option>
+      {options.map(o => <option key={o} value={o} className="bg-[#0d0d0d]">{o}</option>)}
+    </select>
+  </label>
+);
+
+const TextareaField = ({ label, value, onChange, placeholder }: {
+  label: string; value: string; onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void; placeholder?: string;
+}) => (
+  <label className="block mb-3">
+    <span className="text-[11px] tracking-[0.16em] text-haze/60 uppercase mb-1.5 block">{label}</span>
+    <textarea
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      rows={2}
+      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-ink placeholder-haze/40 focus:border-[hsl(var(--neon))]/60 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--neon))]/20 transition resize-none"
+    />
+  </label>
+);
 
 export default MiningKvartiry;
