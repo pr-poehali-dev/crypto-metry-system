@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { useReveal } from '@/hooks/useReveal';
@@ -18,13 +19,14 @@ const IMG = {
 };
 
 const nav = [
-  { id: 'idea',   label: 'Идея' },
-  { id: 'system', label: 'Система' },
-  { id: 'you',    label: 'Участнику' },
-  { id: 'money',  label: 'Финансы' },
-  { id: 'how',    label: 'Как работает' },
-  { id: 'faq',    label: 'FAQ' },
-  { id: 'join',   label: 'Вступить' },
+  { id: 'idea',    label: 'Идея' },
+  { id: 'system',  label: 'Система' },
+  { id: 'you',     label: 'Участнику' },
+  { id: 'money',   label: 'Финансы' },
+  { id: 'mining',  label: 'Майнинг' },
+  { id: 'how',     label: 'Как работает' },
+  { id: 'faq',     label: 'FAQ' },
+  { id: 'join',    label: 'Вступить' },
 ];
 
 function Ticker() {
@@ -756,6 +758,74 @@ export default function Index() {
         </div>
       </section>
 
+      {/* ═══════════ MINING KVARTIRY TEASER ═══════════ */}
+      <section id="mining" className="relative py-32 px-6 lg:px-10 overflow-hidden panel-tonal">
+        <div className="orb w-[600px] h-[600px] top-10 left-[-10%] animate-glow" />
+        <div className="orb w-[500px] h-[500px] bottom-0 right-0 animate-glow" style={{ animationDelay: '2s' }} />
+
+        <div className="relative max-w-[1500px] mx-auto">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end mb-12">
+            <div className="lg:col-span-7 reveal">
+              <p className="kicker mb-5">Программа участия · Новый раздел</p>
+              <h2 className="display text-5xl sm:text-6xl lg:text-[7.5rem] leading-[0.9]">
+                Майнинг<br />
+                <span className="display-italic text-neon" style={{ textShadow: '0 0 60px hsla(164,95%,62%,0.35)' }}>квартиры.</span>
+              </h2>
+            </div>
+            <div className="lg:col-span-5 reveal">
+              <div className="bar-neon mb-5" />
+              <p className="text-haze/85 text-lg lg:text-xl leading-relaxed">
+                В КриптоМетре можно не только смотреть запуск системы, но и начать
+                майнить свой путь к будущему жилью уже сейчас.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-5 mb-12">
+            {[
+              {
+                t: '1 КМ = 10 000 ₽',
+                d: 'Внутренний расчётный номинал — видно цель в понятных цифрах.',
+                icon: 'Coins',
+              },
+              {
+                t: 'Квартира 5 млн = 500 КМ',
+                d: 'Каждая квартира получает понятную цель в КМ.',
+                icon: 'Target',
+              },
+              {
+                t: 'После 100 КМ — контур',
+                d: 'Открывается следующий уровень участия в системе.',
+                icon: 'KeyRound',
+              },
+            ].map((t, i) => (
+              <div key={t.t} className="glass rim rim-hover rounded-3xl p-8 reveal" style={{ transitionDelay: `${i * 100}ms` }}>
+                <div className="w-12 h-12 rounded-xl bg-[hsl(var(--neon))]/10 border border-[hsl(var(--neon))]/40 flex items-center justify-center mb-5">
+                  <Icon name={t.icon} size={20} className="text-neon" />
+                </div>
+                <div className="text-xl font-bold mb-2 leading-snug">{t.t}</div>
+                <p className="text-haze/70 text-sm leading-relaxed">{t.d}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-4 reveal">
+            <Link to="/mining-kvartiry">
+              <Button size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
+                Перейти на страницу майнинга
+                <Icon name="ArrowUpRight" size={18} className="ml-2" />
+              </Button>
+            </Link>
+            <Link to="/mining-kvartiry">
+              <Button size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md">
+                <Icon name="Pickaxe" size={16} className="mr-2" fallback="Hammer" />
+                Начать майнить
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ═══════════ TIMELINE "Как это работает" ═══════════ */}
       <section id="how" className="relative py-32 px-6 lg:px-10 overflow-hidden">
         <div className="absolute inset-0 opacity-30">
@@ -794,7 +864,7 @@ export default function Index() {
                   <div className="relative shrink-0">
                     <div className="absolute inset-0 bg-[hsl(var(--neon))]/20 rounded-full blur-xl group-hover:bg-[hsl(var(--neon))]/50 transition-all duration-500" />
                     <div className="relative w-[72px] h-[72px] rounded-full bg-[#0a0a0a] border border-[hsl(var(--neon))]/50 flex items-center justify-center">
-                      <span className="serif italic text-2xl font-bold text-neon">{s.n}</span>
+                      <span className="serif text-2xl font-bold text-neon">{s.n}</span>
                     </div>
                   </div>
                   <div className="flex-1">
