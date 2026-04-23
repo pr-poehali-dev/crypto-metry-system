@@ -6,18 +6,6 @@ import { useReveal } from '@/hooks/useReveal';
 
 const LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
 
-const IMG = {
-  hero:        'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/092cefe9-46e0-4d2d-8610-70bf1a8e670d.jpg',
-  resort:      'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/8fbb118f-f75d-4354-bd66-00ab3e981d81.jpg',
-  quarter:     'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/e3be1098-9720-4721-b8b8-f18dbefc328c.jpg',
-  facade:      'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/275e2561-0665-4b11-a4fd-cd25607e8026.jpg',
-  courtyard:   'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/b93a50ee-e6ce-45db-94d9-0897ae028c7b.jpg',
-  aerial:      'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/d4c1c38f-bf46-4eb1-a5a1-9e0187887e75.jpg',
-  interior:    'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/f1e60bd7-338c-4fc2-92c1-22c9c49a1025.jpg',
-  village:     'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/ff379895-1c9b-4d90-a62a-f4abcc281fe2.jpg',
-  site:        'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/b7c8f3e7-b3ae-4074-baf6-76e997048aef.jpg',
-};
-
 const nav = [
   { id: 'idea',    label: 'Идея' },
   { id: 'system',  label: 'Система' },
@@ -135,14 +123,8 @@ export default function Index() {
 
       {/* ═══════════ HERO ═══════════ */}
       <section id="hero" className="relative min-h-[900px] h-screen overflow-hidden bg-[#0d0d0d]">
-        {/* image on the right side */}
-        <div className="absolute inset-0">
-          <img src={IMG.hero} alt="Архитектурный квартал" className="w-full h-full object-cover scale-105 animate-fade-in" />
-        </div>
-
-        {/* protective gradient — затемнение текстовой зоны */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/75 to-[#0a0a0a]/10 lg:from-[#0a0a0a] lg:via-[#0a0a0a]/70 lg:to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/50 pointer-events-none" />
+        <div className="absolute inset-0 bg-[#0a0a0a]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--neon))]/10 via-transparent to-transparent pointer-events-none" />
 
         <div className="orb w-[620px] h-[620px] top-20 -left-40 animate-glow" />
         <div className="orb w-[480px] h-[480px] bottom-40 right-0 animate-glow" style={{ animationDelay: '2.5s' }} />
@@ -239,8 +221,7 @@ export default function Index() {
 
           {/* price anatomy */}
           <div className="relative rounded-3xl overflow-hidden panel-tonal border border-border reveal reveal-slow">
-            <img src={IMG.facade} alt="" className="absolute inset-0 w-full h-full object-cover opacity-15" />
-            <div className="absolute inset-0 bg-gradient-to-br from-[#131313]/95 via-[#131313]/80 to-[#131313]/95" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#131313] via-[#161616] to-[#131313]" />
 
             <div className="relative z-10 p-8 lg:p-14 grid lg:grid-cols-12 gap-10">
               <div className="lg:col-span-5">
@@ -359,26 +340,23 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ═══════════ ARCHITECTURAL BIG PHOTO ═══════════ */}
-      <section className="relative h-[85vh] min-h-[620px] overflow-hidden">
-        <div className="absolute inset-0 img-soft img-vignette">
-          <img src={IMG.aerial} alt="Квартал с воздуха" className="w-full h-full object-cover scale-105" />
-        </div>
-        <div className="relative z-10 h-full max-w-[1500px] mx-auto px-6 lg:px-10 flex items-end pb-24">
-          <div className="text-ink max-w-3xl reveal">
-            <p className="chip mb-6">
-              <Icon name="Building2" size={12} />
-              Архитектурная среда
-            </p>
-            <h3 className="display text-5xl sm:text-7xl lg:text-[8rem] mb-6">
-              Не один дом.<br />
-              <span className="display-italic text-neon">Целые кварталы.</span>
-            </h3>
-            <p className="text-xl text-haze/80 max-w-2xl">
-              Это не очередной объект застройщика. Это платформа, через которую люди строят для себя —
-              жилые комплексы, коттеджные деревни, курортные и mixed-use проекты.
-            </p>
-          </div>
+      {/* ═══════════ ARCHITECTURAL STATEMENT ═══════════ */}
+      <section className="relative py-32 px-6 lg:px-10 overflow-hidden">
+        <div className="orb w-[600px] h-[600px] top-10 -left-32 animate-glow" />
+        <div className="orb w-[500px] h-[500px] bottom-0 right-[-5%]" style={{ animationDelay: '2s' }} />
+        <div className="relative max-w-[1500px] mx-auto reveal">
+          <p className="chip mb-8">
+            <Icon name="Building2" size={12} />
+            Архитектурная среда
+          </p>
+          <h3 className="display text-5xl sm:text-7xl lg:text-[8rem] mb-8 leading-[0.95]">
+            Не один дом.<br />
+            <span className="display-italic text-neon">Целые кварталы.</span>
+          </h3>
+          <p className="text-xl text-haze/80 max-w-2xl leading-relaxed">
+            Это не очередной объект застройщика. Это платформа, через которую люди строят для себя —
+            жилые комплексы, коттеджные деревни, курортные и mixed-use проекты.
+          </p>
         </div>
       </section>
 
@@ -659,8 +637,8 @@ export default function Index() {
           {/* Accreditation split */}
           <div className="grid lg:grid-cols-2 gap-5 mb-24">
             <div className="relative rounded-3xl overflow-hidden min-h-[520px] glass rim rim-hover reveal hover-zoom">
-              <img src={IMG.village} alt="Коттеджный посёлок" className="absolute inset-0 w-full h-full object-cover opacity-75" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#131313] via-[#131313]/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#151515] via-[#121212] to-[#0e0e0e]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--neon))]/10 via-transparent to-transparent" />
               <div className="relative z-10 p-10 h-full flex flex-col justify-end text-ink">
                 <p className="kicker mb-5">Отбор · 06</p>
                 <h3 className="display text-4xl lg:text-[3.8rem] mb-6">
@@ -832,10 +810,6 @@ export default function Index() {
 
       {/* ═══════════ TIMELINE "Как это работает" ═══════════ */}
       <section id="how" className="relative py-32 px-6 lg:px-10 overflow-hidden">
-        <div className="absolute inset-0 opacity-30">
-          <img src={IMG.resort} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#131313] via-[#131313]/90 to-[#131313]" />
-        </div>
         <div className="orb w-[600px] h-[600px] top-40 left-[-10%]" />
 
         <div className="relative max-w-[1200px] mx-auto">
@@ -950,10 +924,6 @@ export default function Index() {
 
       {/* ═══════════ FINAL CTA ═══════════ */}
       <section id="join" className="relative py-32 px-6 lg:px-10 overflow-hidden">
-        <div className="absolute inset-0 img-cover img-vignette">
-          <img src={IMG.quarter} alt="" className="w-full h-full object-cover scale-105" />
-        </div>
-
         <div className="orb w-[700px] h-[700px] top-0 left-1/2 -translate-x-1/2 animate-glow" />
 
         <div className="relative z-10 max-w-[1200px] mx-auto text-center text-ink reveal">
