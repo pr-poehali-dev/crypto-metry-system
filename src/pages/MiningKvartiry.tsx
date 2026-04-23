@@ -31,6 +31,8 @@ type SurveyResponse = {
 };
 
 const LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
+const HERO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/d4c1c38f-bf46-4eb1-a5a1-9e0187887e75.jpg';
+const BG2 = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/f1e60bd7-338c-4fc2-92c1-22c9c49a1025.jpg';
 
 const Section: React.FC<React.PropsWithChildren<{ id?: string; className?: string }>> = ({ id, className = '', children }) => (
   <section id={id} className={`relative py-28 px-6 lg:px-10 overflow-hidden ${className}`}>
@@ -197,7 +199,11 @@ const MiningKvartiry = () => {
 
       {/* HERO */}
       <Section className="pt-36 pb-24 min-h-[720px] flex items-center">
-        <div className="absolute inset-0 bg-[#0a0a0a]" />
+        <div className="absolute inset-0">
+          <img src={HERO} alt="" className="w-full h-full object-cover opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-[#0a0a0a]/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/40" />
+        </div>
         <div className="orb w-[600px] h-[600px] top-10 -left-40 animate-glow" />
         <div className="orb w-[500px] h-[500px] bottom-0 right-0 animate-glow" style={{ animationDelay: '2.5s' }} />
 
@@ -427,6 +433,10 @@ const MiningKvartiry = () => {
 
       {/* AFTER 100 KM */}
       <Section>
+        <div className="absolute inset-0 opacity-20">
+          <img src={BG2} alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a]/90 to-[#0a0a0a]" />
+        </div>
         <div className="orb w-[700px] h-[700px] bottom-0 left-[-10%]" />
 
         <div className="relative max-w-[1200px] mx-auto">
@@ -541,6 +551,10 @@ const MiningKvartiry = () => {
 
       {/* FINAL CTA */}
       <Section>
+        <div className="absolute inset-0">
+          <img src={HERO} alt="" className="w-full h-full object-cover opacity-25" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a]/80 to-[#0a0a0a]" />
+        </div>
         <div className="orb w-[700px] h-[700px] top-0 left-0" />
         <div className="orb w-[600px] h-[600px] bottom-0 right-0 animate-glow" />
 

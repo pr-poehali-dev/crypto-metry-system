@@ -7,6 +7,7 @@ import func2url from '../../backend/func2url.json';
 
 const CABINET_URL = (func2url as Record<string, string>)['cabinet'];
 const LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
+const BG = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/d4c1c38f-bf46-4eb1-a5a1-9e0187887e75.jpg';
 
 const LS_KEY = 'km_cabinet_email';
 
@@ -143,6 +144,11 @@ const Cabinet = () => {
           </div>
         </div>
       </header>
+
+      <div className="absolute inset-0 overflow-hidden pointer-events-none h-[700px]">
+        <img src={BG} alt="" className="w-full h-full object-cover opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0a0a]/80 to-[#0a0a0a]" />
+      </div>
 
       <main className="relative pt-32 pb-24 px-6 lg:px-10 max-w-[1300px] mx-auto">
         {!data ? (
