@@ -1,0 +1,192 @@
+import { useEffect, useMemo, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import Icon from '@/components/ui/icon';
+import { useToast } from '@/hooks/use-toast';
+import { CONTENT_SCHEMA, ContentField } from './schema';
+import { useContentCtx } from './ContentContext';
+
+type DraftMap = Record<string, string>;
+
+const k = (page: string, section: string, key: string) => `${page}.${section}.${key}`;
+
+const ContentEditor = ({ adminEmail }: { adminEmail: string }) => {
+  const { toast } = useToast();
+  const { url, map, reload } = useContentCtx();
+
+  const [draft, setDraft] = useState<DraftMap>({});
+  const [openPage, setOpenPage] = useState<string>(CONTENT_SCHEMA[0]?.id || '');
+  const [openSection, setOpenSection] = useState<string>('');
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    const next: DraftMap = {};
+    for (const page of CONTENT_SCHEMA) {
+      for (const section of page.sections) {
+        for (const field of section.fields) {
+          const key = k(page.id, section.id, field.key);
+          next[key] = map[key] ?? field.fallback;
+        }
+      }
+    }
+    setDraft(next);
+  }, [map]);
+
+  const dirtyKeys = useMemo(() => {
+    const list: { page: string; section: string; field: ContentField; value: string }[] = [];
+    for (const page of CONTENT_SCHEMA) {
+      for (const section of page.sections) {
+        for (const field of section.fields) {
+          const key = k(page.id, section.id, field.key);
+          const stored = map[key] ?? field.fallback;
+          const current = draft[key] ?? '';
+          if (current !== stored) {
+            list.push({ page: page.id, section: section.id, field, value: current });
+          }
+        }
+      }
+    }
+    return list;
+  }, [draft, map]);
+
+  const save = async () => {
+    if (dirtyKeys.length === 0) {
+      toast({ title: 'Нечего сохранять' });
+      return;
+    }
+    setSaving(true);
+    try {
+      const updates = dirtyKeys.map(({ page, section, field, value }) => ({
+        page,
+        section,
+        key: field.key,
+        value,
+        type: field.multiline ? 'textarea' : 'text',
+        sort_order: 0,
+      }));
+      const res = await fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'X-User-Email': adminEmail },
+        body: JSON.stringify({ updates }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.ok) {
+        toast({ title: 'Ошибка сохранения', description: json.error || '', variant: 'destructive' });
+        return;
+      }
+      toast({ title: `Сохранено (${updates.length})` });
+      await reload();
+    } catch {
+      toast({ title: 'Ошибка сети', variant: 'destructive' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const reset = (page: string, section: string, field: ContentField) => {
+    setDraft(d => ({ ...d, [k(page, section, field.key)]: field.fallback }));
+  };
+
+  return (
+    <section className="glass rim rounded-3xl p-6 lg:p-8 border border-white/10">
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+        <div>
+          <div className="text-xs tracking-[0.22em] text-neon uppercase mb-2">Админка</div>
+          <h2 className="display text-2xl md:text-3xl">Редактор контента сайта</h2>
+          <p className="text-haze/70 text-sm mt-1">Меняй тексты по секциям. Стили, картинки и логика остаются нетронутыми.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-haze/60">
+            {dirtyKeys.length > 0 ? `Изменений: ${dirtyKeys.length}` : 'Нет изменений'}
+          </span>
+          <Button onClick={save} disabled={saving || dirtyKeys.length === 0} className="btn-neon h-11 rounded-md text-[12px] px-5">
+            {saving ? 'Сохраняю…' : 'Сохранить'}
+            {!saving && <Icon name="Save" size={14} className="ml-2" />}
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex gap-2 mb-5 flex-wrap">
+        {CONTENT_SCHEMA.map(page => (
+          <button
+            key={page.id}
+            onClick={() => { setOpenPage(page.id); setOpenSection(''); }}
+            className={`px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border transition ${
+              openPage === page.id
+                ? 'bg-[hsl(var(--neon))]/15 border-[hsl(var(--neon))]/40 text-ink'
+                : 'bg-white/[0.03] border-white/10 text-haze/70 hover:text-ink'
+            }`}
+          >
+            {page.title}
+          </button>
+        ))}
+      </div>
+
+      <div className="space-y-3">
+        {CONTENT_SCHEMA.filter(p => p.id === openPage).flatMap(page =>
+          page.sections.map(section => {
+            const isOpen = openSection === section.id;
+            return (
+              <div key={section.id} className="rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden">
+                <button
+                  onClick={() => setOpenSection(isOpen ? '' : section.id)}
+                  className="w-full flex items-center justify-between px-5 py-4 hover:bg-white/[0.03] transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon name={isOpen ? 'ChevronDown' : 'ChevronRight'} size={16} className="text-haze/60" />
+                    <span className="font-medium text-ink">{section.title}</span>
+                    <span className="text-xs text-haze/50">{section.fields.length} полей</span>
+                  </div>
+                  <span className="text-[10px] tracking-[0.2em] uppercase text-haze/40">{page.id} · {section.id}</span>
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-5 pt-1 space-y-4">
+                    {section.fields.map(field => {
+                      const key = k(page.id, section.id, field.key);
+                      const value = draft[key] ?? '';
+                      const stored = map[key] ?? field.fallback;
+                      const dirty = value !== stored;
+                      return (
+                        <div key={field.key}>
+                          <div className="flex items-center justify-between mb-1.5">
+                            <label className="text-[11px] tracking-[0.16em] text-haze/70 uppercase">
+                              {field.label}
+                              {dirty && <span className="ml-2 text-neon">●</span>}
+                            </label>
+                            <button
+                              onClick={() => reset(page.id, section.id, field)}
+                              className="text-[10px] tracking-wider text-haze/50 hover:text-ink transition uppercase"
+                              title="Сбросить к исходному тексту"
+                            >
+                              Сброс
+                            </button>
+                          </div>
+                          {field.multiline ? (
+                            <textarea
+                              value={value}
+                              onChange={e => setDraft(d => ({ ...d, [key]: e.target.value }))}
+                              rows={3}
+                              className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-3 py-2.5 text-ink placeholder-haze/40 focus:border-[hsl(var(--neon))]/50 focus:outline-none text-sm leading-relaxed resize-y"
+                            />
+                          ) : (
+                            <input
+                              type="text"
+                              value={value}
+                              onChange={e => setDraft(d => ({ ...d, [key]: e.target.value }))}
+                              className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-3 py-2.5 text-ink placeholder-haze/40 focus:border-[hsl(var(--neon))]/50 focus:outline-none text-sm"
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          }),
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default ContentEditor;

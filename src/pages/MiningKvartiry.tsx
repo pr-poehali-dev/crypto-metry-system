@@ -5,6 +5,7 @@ import Icon from '@/components/ui/icon';
 import { useReveal } from '@/hooks/useReveal';
 import { useToast } from '@/hooks/use-toast';
 import func2url from '../../backend/func2url.json';
+import { useContent } from '@/content/ContentContext';
 
 const SURVEY_URL = (func2url as Record<string, string>)['apartment-survey'];
 
@@ -49,6 +50,14 @@ const EMPTY_FORM: SurveyForm = {
 const MiningKvartiry = () => {
   useReveal();
   const { toast } = useToast();
+
+  const heroChip = useContent('mining', 'hero', 'chip', 'Экосистема КриптоМетр · Программа участия');
+  const heroTitle1 = useContent('mining', 'hero', 'title_1', 'Майнинг');
+  const heroTitle2 = useContent('mining', 'hero', 'title_2', 'квартиры');
+  const heroCta = useContent('mining', 'hero', 'cta_primary', 'Начать майнить');
+  const finalTitle1 = useContent('mining', 'final', 'title_1', 'Начните майнить');
+  const finalTitle2 = useContent('mining', 'final', 'title_2', 'свою квартиру');
+  const finalTitle3 = useContent('mining', 'final', 'title_3', 'уже сегодня.');
   const [open, setOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [form, setForm] = useState<SurveyForm>(EMPTY_FORM);
@@ -210,13 +219,13 @@ const MiningKvartiry = () => {
         <div className="relative z-10 max-w-[1500px] w-full mx-auto">
           <span className="chip mb-8 animate-fade-up">
             <span className="chip-dot" />
-            Экосистема КриптоМетр · Программа участия
+            {heroChip}
           </span>
 
           <h1 className="display text-[12vw] sm:text-[9vw] lg:text-[8rem] xl:text-[9.5rem] leading-[0.88] max-w-[1200px] animate-fade-up-1">
-            <span className="neon-grad">Майнинг</span>
+            <span className="neon-grad">{heroTitle1}</span>
             <span className="block display-italic text-neon" style={{ textShadow: '0 0 60px hsla(164,95%,62%,0.35)' }}>
-              квартиры
+              {heroTitle2}
             </span>
           </h1>
 
@@ -243,7 +252,7 @@ const MiningKvartiry = () => {
 
           <div className="mt-10 flex flex-wrap gap-4 animate-fade-up-3">
             <Button onClick={openForm} size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
-              Начать майнить
+              {heroCta}
               <Icon name="ArrowUpRight" size={18} className="ml-2" />
             </Button>
             <Button onClick={openForm} size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md">
@@ -560,9 +569,9 @@ const MiningKvartiry = () => {
 
         <div className="relative max-w-[1200px] mx-auto text-center">
           <h2 className="display text-5xl sm:text-7xl lg:text-[8rem] leading-[0.9] mb-10 reveal">
-            Начните майнить<br />
-            <span className="display-italic text-neon" style={{ textShadow: '0 0 80px hsla(164,95%,62%,0.4)' }}>свою квартиру</span>
-            <span className="block mt-2">уже сегодня.</span>
+            {finalTitle1}<br />
+            <span className="display-italic text-neon" style={{ textShadow: '0 0 80px hsla(164,95%,62%,0.4)' }}>{finalTitle2}</span>
+            <span className="block mt-2">{finalTitle3}</span>
           </h2>
 
           <div className="flex flex-wrap gap-4 justify-center reveal">

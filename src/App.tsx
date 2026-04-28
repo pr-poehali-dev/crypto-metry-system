@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import MiningKvartiry from "./pages/MiningKvartiry";
 import Cabinet from "./pages/Cabinet";
 import NotFound from "./pages/NotFound";
+import { ContentProvider } from "@/content/ContentContext";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <ContentProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
@@ -26,6 +28,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      </ContentProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

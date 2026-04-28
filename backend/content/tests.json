@@ -1,0 +1,26 @@
+{
+  "tests": [
+    {
+      "name": "GET content public",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "PUT without admin email forbidden",
+      "method": "PUT",
+      "path": "/",
+      "body": {"updates": [{"page": "index", "section": "hero", "key": "title", "value": "x"}]},
+      "expectedStatus": 403,
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    }
+  ]
+}

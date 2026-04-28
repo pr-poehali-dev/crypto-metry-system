@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { useReveal } from '@/hooks/useReveal';
+import { useContent } from '@/content/ContentContext';
 
 const LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
 
@@ -61,6 +62,16 @@ export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   useReveal();
+
+  const heroChip = useContent('index', 'hero', 'chip', 'Майнинг метров · Запуск · Май 2026');
+  const heroTitle1 = useContent('index', 'hero', 'title_1', 'Майним');
+  const heroTitle2 = useContent('index', 'hero', 'title_2', 'недвижимость');
+  const heroCtaPrimary = useContent('index', 'hero', 'cta_primary', 'Получить КМ');
+  const heroCtaSecondary = useContent('index', 'hero', 'cta_secondary', 'Что это такое');
+  const ideaKicker = useContent('index', 'idea', 'kicker', 'Манифест · 01');
+  const howKicker = useContent('index', 'how', 'kicker', 'Как это работает · 08');
+  const howTitle1 = useContent('index', 'how', 'title_1', 'Шесть шагов');
+  const howTitle2 = useContent('index', 'how', 'title_2', 'к своему жилью.');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -156,14 +167,14 @@ export default function Index() {
           <div className="animate-fade-up">
             <span className="chip mb-8">
               <span className="chip-dot" />
-              Майнинг метров · Запуск · Май 2026
+              {heroChip}
             </span>
           </div>
 
           <h1 className="display text-[13vw] sm:text-[10vw] lg:text-[8.5rem] xl:text-[10rem] max-w-[1100px] leading-[0.88] animate-fade-up-1">
-            <span className="neon-grad">Майним</span>
+            <span className="neon-grad">{heroTitle1}</span>
             <span className="block display-italic text-neon mt-[-0.04em]" style={{ textShadow: '0 0 60px hsla(164,95%,62%,0.35)' }}>
-              недвижимость
+              {heroTitle2}
             </span>
           </h1>
 
@@ -179,12 +190,12 @@ export default function Index() {
 
           <div className="mt-10 flex flex-wrap gap-4 animate-fade-up-3">
             <Button size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md" onClick={() => scroll('join')}>
-              Получить КМ
+              {heroCtaPrimary}
               <Icon name="ArrowUpRight" size={18} className="ml-2" />
             </Button>
             <Button size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md" onClick={() => scroll('idea')}>
               <Icon name="Play" size={15} className="mr-2" />
-              Что это такое
+              {heroCtaSecondary}
             </Button>
           </div>
         </div>
@@ -222,7 +233,7 @@ export default function Index() {
         <div className="relative max-w-[1500px] mx-auto">
           <div className="grid lg:grid-cols-12 gap-10 items-end mb-20 reveal">
             <div className="lg:col-span-7">
-              <p className="kicker mb-6">Манифест · 01</p>
+              <p className="kicker mb-6">{ideaKicker}</p>
               <h2 className="display text-5xl sm:text-6xl lg:text-[6.5rem] text-ink">
                 Когда обычная квартира<br />
                 <span className="display-italic text-neon">слишком дорогая</span>, — появляется <span className="italic-accent" style={{ fontWeight: 400 }}>другая модель</span>.
@@ -840,10 +851,10 @@ export default function Index() {
 
         <div className="relative max-w-[1200px] mx-auto">
           <div className="mb-20 max-w-3xl reveal">
-            <p className="kicker mb-6">Как это работает · 08</p>
+            <p className="kicker mb-6">{howKicker}</p>
             <h2 className="display text-5xl sm:text-6xl lg:text-[7rem] mb-6 text-ink">
-              Шесть шагов<br />
-              <span className="display-italic text-neon">к своему жилью.</span>
+              {howTitle1}<br />
+              <span className="display-italic text-neon">{howTitle2}</span>
             </h2>
             <p className="text-lg text-haze/75 leading-relaxed">
               Скидываемся. Покупаем землю. Нанимаем девелопера. Контролируем стройку.

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import func2url from '../../backend/func2url.json';
+import ContentEditor from '@/content/ContentEditor';
 
 const CABINET_URL = (func2url as Record<string, string>)['cabinet'];
 const LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
@@ -28,6 +29,7 @@ type CabinetData = {
   goal_km: number;
   goal_progress_pct: number;
   surveys_count: number;
+  is_admin?: boolean;
   transactions: Tx[];
   levels: LevelDef[];
 };
@@ -212,8 +214,9 @@ const Cabinet = () => {
 };
 
 const CabinetView = ({ data }: { data: CabinetData }) => {
-  const { participant, goal_km, goal_progress_pct, next_target, surveys_count, transactions, levels } = data;
+  const { participant, goal_km, goal_progress_pct, next_target, surveys_count, transactions, levels, is_admin } = data;
   const displayName = participant.name || participant.email.split('@')[0];
+  const [tab, setTab] = useState<'cabinet' | 'content'>('cabinet');
 
   const currentLevelIdx = levels.findIndex(l => l.code === participant.level);
 
@@ -237,8 +240,34 @@ const CabinetView = ({ data }: { data: CabinetData }) => {
     { label: 'Сложные задания',           val: '1–5 КМ',     icon: 'Target',         done: false },
   ];
 
+  if (is_admin && tab === 'content') {
+    return (
+      <div className="space-y-6 animate-fade-up">
+        <div className="flex items-center gap-2 flex-wrap">
+          <button onClick={() => setTab('cabinet')} className="px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border bg-white/[0.03] border-white/10 text-haze/70 hover:text-ink transition">
+            Кабинет
+          </button>
+          <button onClick={() => setTab('content')} className="px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border bg-[hsl(var(--neon))]/15 border-[hsl(var(--neon))]/40 text-ink transition">
+            Контент сайта
+          </button>
+        </div>
+        <ContentEditor adminEmail={participant.email} />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6 animate-fade-up">
+      {is_admin && (
+        <div className="flex items-center gap-2 flex-wrap">
+          <button onClick={() => setTab('cabinet')} className="px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border bg-[hsl(var(--neon))]/15 border-[hsl(var(--neon))]/40 text-ink transition">
+            Кабинет
+          </button>
+          <button onClick={() => setTab('content')} className="px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border bg-white/[0.03] border-white/10 text-haze/70 hover:text-ink transition">
+            Контент сайта
+          </button>
+        </div>
+      )}
       {/* PROFILE HEADER */}
       <div className="flex flex-wrap items-center justify-between gap-6">
         <div>

@@ -82,6 +82,11 @@ def handler(event: dict, context) -> dict:
         )
         surveys_count = cur.fetchone()[0]
 
+        cur.execute(
+            f"SELECT 1 FROM t_p82937916_crypto_metry_system.admin_emails WHERE email = '{esc(email_v)}' LIMIT 1"
+        )
+        is_admin = cur.fetchone() is not None
+
         thresholds = [
             {'code': 'start',        'name': 'Старт',                    'max': 1},
             {'code': 'profile',      'name': 'Профиль спроса',           'max': 10},
@@ -127,6 +132,7 @@ def handler(event: dict, context) -> dict:
                 'goal_km': goal_km,
                 'goal_progress_pct': goal_progress_pct,
                 'surveys_count': surveys_count,
+                'is_admin': is_admin,
                 'transactions': txs,
                 'levels': thresholds,
             }, ensure_ascii=False),
