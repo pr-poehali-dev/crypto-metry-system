@@ -82,6 +82,36 @@ const SystemHub = () => {
         </p>
       </section>
 
+      {/* CTA-баннеры */}
+      <section className="max-w-6xl mx-auto px-6 pb-10">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {[
+            { label: 'Вступить', desc: 'Получить первые КМ', icon: 'UserPlus', href: '/mining-kvartiry', accent: true },
+            { label: 'Рассчитать КМ', desc: 'Калькулятор', icon: 'Calculator', href: '/calculator', accent: false },
+            { label: 'Задать вопрос ИИ', desc: 'Как это работает', icon: 'Bot', href: '/how-ai', accent: false },
+            { label: 'Передать объект', desc: 'LSS — земельный поиск', icon: 'Map', href: '/lss', accent: false },
+          ].map(btn => (
+            <Link
+              key={btn.href}
+              to={btn.href}
+              className="flex items-center gap-3 rounded-xl border p-4 transition-all hover:scale-[1.01]"
+              style={{
+                borderColor: btn.accent ? 'hsl(168 100% 50% / 0.4)' : 'rgba(255,255,255,0.07)',
+                background:  btn.accent ? 'hsl(168 100% 50% / 0.08)' : 'rgba(255,255,255,0.02)',
+              }}
+            >
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: btn.accent ? 'hsl(168 100% 50% / 0.15)' : 'rgba(255,255,255,0.05)' }}>
+                <Icon name={btn.icon as 'Bot'} size={16} style={{ color: btn.accent ? 'hsl(168 100% 50%)' : 'rgba(255,255,255,0.4)' }} />
+              </div>
+              <div>
+                <div className="font-semibold text-sm" style={{ color: btn.accent ? 'hsl(168 100% 50%)' : 'rgba(255,255,255,0.85)' }}>{btn.label}</div>
+                <div className="text-xs text-white/30">{btn.desc}</div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Sections */}
       <section className="max-w-6xl mx-auto px-6 pb-24 space-y-14">
         {SECTIONS.map(group => (
@@ -122,7 +152,10 @@ const SystemHub = () => {
               <Link to="/mining-kvartiry">Получить КМ</Link>
             </Button>
             <Button variant="outline" asChild className="border-white/20 text-white hover:bg-white/5">
-              <Link to="/">На главную</Link>
+              <Link to="/calculator">Рассчитать КМ</Link>
+            </Button>
+            <Button variant="outline" asChild className="border-white/20 text-white hover:bg-white/5">
+              <Link to="/faq">FAQ</Link>
             </Button>
           </div>
         </div>
