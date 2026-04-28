@@ -119,15 +119,26 @@ export default function Index() {
           </button>
 
           <nav className="hidden lg:flex items-center gap-8">
-            {nav.map(n => (
-              <button
-                key={n.id}
-                onClick={() => scroll(n.id)}
-                className="mono-tech text-[12px] uppercase tracking-[0.2em] text-haze/70 hover:text-neon transition-colors"
-              >
-                {n.label}
+            <div className="relative group">
+              <button className="mono-tech text-[12px] uppercase tracking-[0.2em] text-haze/70 hover:text-neon transition-colors flex items-center gap-1.5">
+                Главная
+                <Icon name="ChevronDown" size={12} className="opacity-50 group-hover:opacity-100 transition-all group-hover:rotate-180 duration-200" />
               </button>
-            ))}
+              {/* Dropdown */}
+              <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 translate-y-1 group-hover:translate-y-0">
+                <div className="glass-strong border border-border/60 rounded-xl p-1.5 min-w-[160px] shadow-2xl">
+                  {nav.map(n => (
+                    <button
+                      key={n.id}
+                      onClick={() => scroll(n.id)}
+                      className="w-full text-left px-3 py-2 rounded-lg mono-tech text-[11px] uppercase tracking-[0.15em] text-haze/70 hover:text-neon hover:bg-white/5 transition-colors"
+                    >
+                      {n.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
