@@ -2,6 +2,7 @@ export type ContentField = {
   key: string;
   label: string;
   multiline?: boolean;
+  type?: 'text' | 'image';
   fallback: string;
 };
 
@@ -128,6 +129,22 @@ export const CONTENT_SCHEMA: ContentPage[] = [
           { key: 'cta_secondary', label: 'Кнопка — вторичная', fallback: 'Написать нам' },
         ],
       },
+      {
+        id: 'images',
+        title: 'Изображения',
+        fields: [
+          { key: 'logo', label: 'Логотип в шапке', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png' },
+          { key: 'hero', label: 'Фон обложки (Hero)', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/b8c94214-dc0f-4d12-b0b0-4235830f89d7.png' },
+          { key: 'resort', label: 'Курорт / посёлок (блок «Манифест»)', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/8fbb118f-f75d-4354-bd66-00ab3e981d81.jpg' },
+          { key: 'quarter', label: 'Жилой квартал (блок «Архитектура»)', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/e3be1098-9720-4721-b8b8-f18dbefc328c.jpg' },
+          { key: 'facade', label: 'Фасад дома (блок «Вы — заказчик»)', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/275e2561-0665-4b11-a4fd-cd25607e8026.jpg' },
+          { key: 'courtyard', label: 'Двор (блок «Финансы»)', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/b93a50ee-e6ce-45db-94d9-0897ae028c7b.jpg' },
+          { key: 'aerial', label: 'Аэрофото (блок «Майнинг»)', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/d4c1c38f-bf46-4eb1-a5a1-9e0187887e75.jpg' },
+          { key: 'interior', label: 'Интерьер (блок «Как работает»)', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/f1e60bd7-338c-4fc2-92c1-22c9c49a1025.jpg' },
+          { key: 'village', label: 'Деревня (блок «Отбор»)', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/ff379895-1c9b-4d90-a62a-f4abcc281fe2.jpg' },
+          { key: 'site', label: 'Стройплощадка (FAQ / Финал)', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/b7c8f3e7-b3ae-4074-baf6-76e997048aef.jpg' },
+        ],
+      },
     ],
   },
   {
@@ -207,6 +224,14 @@ export const CONTENT_SCHEMA: ContentPage[] = [
           { key: 'title_3', label: 'Заголовок — строка 3', fallback: 'уже сегодня.' },
           { key: 'cta_primary', label: 'Кнопка — главная', fallback: 'Начать майнить' },
           { key: 'cta_secondary', label: 'Кнопка — вторичная', fallback: 'Заполнить анкету квартиры' },
+        ],
+      },
+      {
+        id: 'images',
+        title: 'Изображения',
+        fields: [
+          { key: 'hero_bg', label: 'Фон обложки (Hero)', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/d4c1c38f-bf46-4eb1-a5a1-9e0187887e75.jpg' },
+          { key: 'side_bg', label: 'Фон секции «После 100 КМ»', type: 'image', fallback: 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/f1e60bd7-338c-4fc2-92c1-22c9c49a1025.jpg' },
         ],
       },
     ],

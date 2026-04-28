@@ -5,9 +5,9 @@ import Icon from '@/components/ui/icon';
 import { useReveal } from '@/hooks/useReveal';
 import { useContentSection } from '@/content/ContentContext';
 
-const LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
+const DEFAULT_LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
 
-const IMG = {
+const DEFAULT_IMG = {
   hero:        'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/b8c94214-dc0f-4d12-b0b0-4235830f89d7.png',
   resort:      'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/8fbb118f-f75d-4354-bd66-00ab3e981d81.jpg',
   quarter:     'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/e3be1098-9720-4721-b8b8-f18dbefc328c.jpg',
@@ -72,6 +72,20 @@ export default function Index() {
   const t_accred = useContentSection('index', 'accreditation');
   const t_how = useContentSection('index', 'how');
   const t_cta = useContentSection('index', 'cta');
+  const t_img = useContentSection('index', 'images');
+
+  const LOGO = t_img('logo', DEFAULT_LOGO);
+  const IMG = {
+    hero:      t_img('hero',      DEFAULT_IMG.hero),
+    resort:    t_img('resort',    DEFAULT_IMG.resort),
+    quarter:   t_img('quarter',   DEFAULT_IMG.quarter),
+    facade:    t_img('facade',    DEFAULT_IMG.facade),
+    courtyard: t_img('courtyard', DEFAULT_IMG.courtyard),
+    aerial:    t_img('aerial',    DEFAULT_IMG.aerial),
+    interior:  t_img('interior',  DEFAULT_IMG.interior),
+    village:   t_img('village',   DEFAULT_IMG.village),
+    site:      t_img('site',      DEFAULT_IMG.site),
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);

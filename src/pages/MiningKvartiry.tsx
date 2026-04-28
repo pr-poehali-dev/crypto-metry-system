@@ -31,9 +31,9 @@ type SurveyResponse = {
   breakdown: Array<{ reason: string; amount: number; label: string }>;
 };
 
-const LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
-const HERO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/d4c1c38f-bf46-4eb1-a5a1-9e0187887e75.jpg';
-const BG2 = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/f1e60bd7-338c-4fc2-92c1-22c9c49a1025.jpg';
+const DEFAULT_LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
+const DEFAULT_HERO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/d4c1c38f-bf46-4eb1-a5a1-9e0187887e75.jpg';
+const DEFAULT_BG2 = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/f1e60bd7-338c-4fc2-92c1-22c9c49a1025.jpg';
 
 const Section: React.FC<React.PropsWithChildren<{ id?: string; className?: string }>> = ({ id, className = '', children }) => (
   <section id={id} className={`relative py-28 px-6 lg:px-10 overflow-hidden ${className}`}>
@@ -57,6 +57,12 @@ const MiningKvartiry = () => {
   const t_levels = useContentSection('mining', 'levels');
   const t_contour = useContentSection('mining', 'contour');
   const t_final = useContentSection('mining', 'final');
+  const t_img = useContentSection('mining', 'images');
+  const t_index_img = useContentSection('index', 'images');
+
+  const LOGO = t_index_img('logo', DEFAULT_LOGO);
+  const HERO = t_img('hero_bg', DEFAULT_HERO);
+  const BG2 = t_img('side_bg', DEFAULT_BG2);
   const [open, setOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [form, setForm] = useState<SurveyForm>(EMPTY_FORM);
