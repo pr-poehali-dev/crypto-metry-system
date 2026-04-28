@@ -2,8 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
-import { CONTENT_SCHEMA, ContentField } from './schema';
+import { CONTENT_SCHEMA, INFO_PAGES, ContentField } from './schema';
 import { useContentCtx } from './ContentContext';
+
+const ALL_PAGES = [...CONTENT_SCHEMA, ...INFO_PAGES];
 
 type DraftMap = Record<string, string>;
 
@@ -14,13 +16,13 @@ const ContentEditor = () => {
   const { url, map, reload, adminPassword, logoutAdmin } = useContentCtx();
 
   const [draft, setDraft] = useState<DraftMap>({});
-  const [openPage, setOpenPage] = useState<string>(CONTENT_SCHEMA[0]?.id || '');
+  const [openPage, setOpenPage] = useState<string>(ALL_PAGES[0]?.id || '');
   const [openSection, setOpenSection] = useState<string>('');
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const next: DraftMap = {};
-    for (const page of CONTENT_SCHEMA) {
+    for (const page of ALL_PAGES) {
       for (const section of page.sections) {
         for (const field of section.fields) {
           const key = k(page.id, section.id, field.key);
@@ -33,7 +35,7 @@ const ContentEditor = () => {
 
   const dirtyKeys = useMemo(() => {
     const list: { page: string; section: string; field: ContentField; value: string }[] = [];
-    for (const page of CONTENT_SCHEMA) {
+    for (const page of ALL_PAGES) {
       for (const section of page.sections) {
         for (const field of section.fields) {
           const key = k(page.id, section.id, field.key);
@@ -164,7 +166,7 @@ const ContentEditor = () => {
       </div>
 
       <div className="flex gap-2 mb-5 flex-wrap">
-        {CONTENT_SCHEMA.map(page => (
+        {ALL_PAGES.map(page => (
           <button
             key={page.id}
             onClick={() => { setOpenPage(page.id); setOpenSection(''); }}
@@ -180,7 +182,7 @@ const ContentEditor = () => {
       </div>
 
       <div className="space-y-3">
-        {CONTENT_SCHEMA.filter(p => p.id === openPage).flatMap(page =>
+        {ALL_PAGES.filter(p => p.id === openPage).flatMap(page =>
           page.sections.map(section => {
             const isOpen = openSection === section.id;
             return (

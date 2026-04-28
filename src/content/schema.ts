@@ -18,6 +18,80 @@ export type ContentPage = {
   sections: ContentSection[];
 };
 
+const makeInfoPage = (id: string, title: string, slug: string, defaultTitle: string, defaultSubtitle: string): ContentPage => ({
+  id,
+  title,
+  sections: [
+    {
+      id: 'meta',
+      title: 'SEO и настройки',
+      fields: [
+        { key: 'slug', label: 'URL (slug)', fallback: slug },
+        { key: 'seo_title', label: 'SEO title', fallback: defaultTitle + ' — КриптоМетры' },
+        { key: 'seo_desc', label: 'SEO description', multiline: true, fallback: defaultSubtitle },
+        { key: 'published', label: 'Статус публикации (published / draft)', fallback: 'draft' },
+      ],
+    },
+    {
+      id: 'hero',
+      title: 'Обложка (Hero)',
+      fields: [
+        { key: 'chip', label: 'Метка над заголовком', fallback: 'КриптоМетры' },
+        { key: 'title_1', label: 'Заголовок — строка 1', fallback: defaultTitle },
+        { key: 'title_2', label: 'Заголовок — строка 2 (акцент)', fallback: '' },
+        { key: 'subtitle', label: 'Подзаголовок', multiline: true, fallback: defaultSubtitle },
+        { key: 'cta_primary', label: 'Кнопка — главная', fallback: 'Узнать подробнее' },
+        { key: 'cta_primary_url', label: 'Кнопка — ссылка', fallback: '/system' },
+        { key: 'cta_secondary', label: 'Кнопка — вторичная', fallback: '' },
+        { key: 'bg_image', label: 'Фон обложки', type: 'image', fallback: '' },
+      ],
+    },
+    {
+      id: 'blocks',
+      title: 'Текстовые блоки',
+      fields: [
+        { key: 'block_1_title', label: 'Блок #1 — заголовок', fallback: '' },
+        { key: 'block_1_text', label: 'Блок #1 — текст', multiline: true, fallback: '' },
+        { key: 'block_2_title', label: 'Блок #2 — заголовок', fallback: '' },
+        { key: 'block_2_text', label: 'Блок #2 — текст', multiline: true, fallback: '' },
+        { key: 'block_3_title', label: 'Блок #3 — заголовок', fallback: '' },
+        { key: 'block_3_text', label: 'Блок #3 — текст', multiline: true, fallback: '' },
+      ],
+    },
+    {
+      id: 'cta',
+      title: 'Финальный призыв (CTA)',
+      fields: [
+        { key: 'title', label: 'Заголовок CTA', fallback: 'Хочешь узнать больше?' },
+        { key: 'cta_primary', label: 'Кнопка — главная', fallback: 'Получить КМ' },
+        { key: 'cta_primary_url', label: 'Кнопка — ссылка', fallback: '/mining-kvartiry' },
+        { key: 'cta_secondary', label: 'Кнопка — вторичная', fallback: 'На главную' },
+        { key: 'cta_secondary_url', label: 'Кнопка вторичная — ссылка', fallback: '/' },
+      ],
+    },
+  ],
+});
+
+export const INFO_PAGES: ContentPage[] = [
+  makeInfoPage('about', 'Что такое КриптоМетры', '/about', 'Что такое КриптоМетры', 'Распределённая система девелопмента нового поколения — участники, а не покупатели.'),
+  makeInfoPage('ai-ksi', 'ИИ АО КСИ', '/ai-ksi', 'ИИ АО КСИ', 'Искусственный интеллект, встроенный в контур управляющей компании проекта.'),
+  makeInfoPage('ao-ksi', 'АО КСИ', '/ao-ksi', 'АО КСИ', 'Управляющая компания проекта КриптоМетры. Структура, функции, команда.'),
+  makeInfoPage('fond', 'Фонд КриптоМетров', '/fond', 'Фонд КриптоМетров', 'Как устроен фонд, накопление и распределение КМ среди участников.'),
+  makeInfoPage('calculator', 'Калькулятор КМ', '/calculator', 'Калькулятор КМ', 'Рассчитай, сколько КМ нужно для участия в проекте.'),
+  makeInfoPage('media', 'Медиаплатформа', '/media', 'Медиаплатформа', 'Собственная медиаплатформа КриптоМетров — контент, обучение, сообщество.'),
+  makeInfoPage('how-ai', 'Как работает запрос к ИИ', '/how-ai', 'Как работает запрос к ИИ', 'Схема взаимодействия участника с ИИ-агентом системы КСИ.'),
+  makeInfoPage('registry-exp', 'Реестр опыта', '/registry-exp', 'Реестр опыта', 'Открытый реестр профессионального опыта участников экосистемы.'),
+  makeInfoPage('registry-km', 'Реестр КриптоМетров', '/registry-km', 'Реестр КриптоМетров', 'Публичный реестр выпущенных и распределённых КриптоМетров.'),
+  makeInfoPage('cooperative', 'Кооперативная модель', '/cooperative', 'Кооперативная модель', 'Почему КриптоМетры строятся по кооперативной логике, а не по девелоперской.'),
+  makeInfoPage('roadmap', 'Дорожная карта', '/roadmap', 'Дорожная карта', 'Этапы развития проекта КриптоМетры — от запуска до первого объекта.'),
+  makeInfoPage('cryptoair', 'КриптоЭфир', '/cryptoair', 'КриптоЭфир', 'КриптоЭфир — цифровой актив внутри экосистемы КриптоМетров.'),
+  makeInfoPage('for-members', 'Для участников', '/for-members', 'Для участников', 'Всё, что нужно знать участнику: права, обязанности, бонусы.'),
+  makeInfoPage('for-advertisers', 'Для рекламодателей', '/for-advertisers', 'Для рекламодателей', 'Форматы размещения и партнёрства в экосистеме КриптоМетров.'),
+  makeInfoPage('lss', 'LSS — Служба земельного поиска', '/lss', 'LSS', 'Land Search Service — система поиска и оценки земельных участков для проектов.'),
+  makeInfoPage('legal', 'Правовая модель', '/legal', 'Правовая модель', 'Юридическая структура проекта, права участников и защита интересов.'),
+  makeInfoPage('faq', 'FAQ', '/faq', 'Частые вопросы', 'Ответы на самые частые вопросы об участии в КриптоМетрах.'),
+];
+
 export const CONTENT_SCHEMA: ContentPage[] = [
   {
     id: 'index',

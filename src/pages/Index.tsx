@@ -131,6 +131,10 @@ export default function Index() {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
+            <Link to="/system" className="mono-tech text-[11px] uppercase tracking-[0.2em] text-haze/80 hover:text-neon transition-colors flex items-center gap-2 px-2">
+              <Icon name="LayoutGrid" size={14} />
+              О системе
+            </Link>
             <Link to="/cabinet" className="mono-tech text-[11px] uppercase tracking-[0.2em] text-haze/80 hover:text-neon transition-colors flex items-center gap-2 px-2">
               <Icon name="User" size={14} />
               Кабинет
@@ -153,6 +157,9 @@ export default function Index() {
                 {n.label}
               </button>
             ))}
+            <Link to="/system" className="text-left mono-tech text-sm uppercase tracking-widest py-1 text-neon" onClick={() => setMenuOpen(false)}>
+              О системе
+            </Link>
             <Button className="btn-neon w-full mt-2" onClick={() => scroll('join')}>Получить КМ</Button>
           </div>
         )}
