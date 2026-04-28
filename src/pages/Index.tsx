@@ -7,7 +7,7 @@ import { useReveal } from '@/hooks/useReveal';
 const LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
 
 const IMG = {
-  hero:        'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/092cefe9-46e0-4d2d-8610-70bf1a8e670d.jpg',
+  hero:        'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/b8c94214-dc0f-4d12-b0b0-4235830f89d7.png',
   resort:      'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/8fbb118f-f75d-4354-bd66-00ab3e981d81.jpg',
   quarter:     'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/e3be1098-9720-4721-b8b8-f18dbefc328c.jpg',
   facade:      'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/files/275e2561-0665-4b11-a4fd-cd25607e8026.jpg',
@@ -140,16 +140,16 @@ export default function Index() {
           <img src={IMG.hero} alt="Архитектурный квартал" className="w-full h-full object-cover scale-105 animate-fade-in" />
         </div>
 
-        {/* protective gradient — затемнение текстовой зоны */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/75 to-[#0a0a0a]/10 lg:from-[#0a0a0a] lg:via-[#0a0a0a]/70 lg:to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/50 pointer-events-none" />
+        {/* protective gradient — тёплое затемнение текстовой зоны */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/95 via-[#0a0a0a]/60 to-transparent lg:from-[#0a0a0a]/92 lg:via-[#0a0a0a]/45 lg:to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent pointer-events-none" />
 
         <div className="orb w-[620px] h-[620px] top-20 -left-40 animate-glow" />
         <div className="orb w-[480px] h-[480px] bottom-40 right-0 animate-glow" style={{ animationDelay: '2.5s' }} />
 
         {/* scan line */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-[5] opacity-30">
-          <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[#3dffc4] to-transparent" style={{ animation: 'scan-line 8s linear infinite' }} />
+          <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" style={{ animation: 'scan-line 8s linear infinite' }} />
         </div>
 
         <div className="relative z-10 h-full max-w-[1500px] mx-auto px-6 lg:px-10 flex flex-col justify-center pt-28 pb-36">
@@ -330,7 +330,7 @@ export default function Index() {
             {/* New model */}
             <div className="relative rounded-3xl p-10 lg:p-12 overflow-hidden glass-strong rim rim-hover light-sweep" style={{ borderColor: 'hsla(164,95%,62%,0.28)' }}>
               <span className="absolute top-6 right-6 mono-tech text-[10px] uppercase tracking-[0.3em] text-neon/80">New model</span>
-              <div className="absolute -right-20 -top-20 w-80 h-80 bg-[hsl(var(--neon))]/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -right-20 -top-20 w-80 h-80 bg-amber-300/10 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative flex items-center gap-4 mb-8">
                 <div className="w-14 h-14 bg-[hsl(var(--neon))] rounded-xl flex items-center justify-center animate-ring" style={{ boxShadow: '0 0 40px hsla(164,95%,62%,0.5)' }}>
