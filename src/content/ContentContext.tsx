@@ -19,6 +19,10 @@ type ContentCtx = {
   map: ContentMap;
   loaded: boolean;
   reload: () => Promise<void>;
+  adminPassword: string;
+  isAdmin: boolean;
+  loginAdmin: (pwd: string) => Promise<{ ok: boolean; error?: string }>;
+  logoutAdmin: () => void;
 };
 
 const Ctx = createContext<ContentCtx>({
@@ -26,13 +30,19 @@ const Ctx = createContext<ContentCtx>({
   map: {},
   loaded: false,
   reload: async () => {},
+  adminPassword: '',
+  isAdmin: false,
+  loginAdmin: async () => ({ ok: false }),
+  logoutAdmin: () => {},
 });
 
 const buildKey = (p: string, s: string, k: string) => `${p}.${s}.${k}`;
+const ADMIN_LS_KEY = 'km_admin_password';
 
 export const ContentProvider = ({ children }: { children: ReactNode }) => {
   const [map, setMap] = useState<ContentMap>({});
   const [loaded, setLoaded] = useState(false);
+  const [adminPassword, setAdminPassword] = useState<string>('');
 
   const load = async () => {
     try {
@@ -52,11 +62,45 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     load();
+    const saved = localStorage.getItem(ADMIN_LS_KEY) || '';
+    if (saved) setAdminPassword(saved);
   }, []);
 
+  const loginAdmin = async (pwd: string) => {
+    try {
+      const r = await fetch(`${CONTENT_URL}?action=login`, {
+        method: 'POST',
+        headers: { 'X-Admin-Password': pwd },
+      });
+      const data = await r.json().catch(() => ({}));
+      if (r.ok && data?.ok) {
+        setAdminPassword(pwd);
+        localStorage.setItem(ADMIN_LS_KEY, pwd);
+        return { ok: true };
+      }
+      return { ok: false, error: data?.error || 'Неверный пароль' };
+    } catch {
+      return { ok: false, error: 'Ошибка сети' };
+    }
+  };
+
+  const logoutAdmin = () => {
+    setAdminPassword('');
+    localStorage.removeItem(ADMIN_LS_KEY);
+  };
+
   const value = useMemo<ContentCtx>(
-    () => ({ url: CONTENT_URL, map, loaded, reload: load }),
-    [map, loaded],
+    () => ({
+      url: CONTENT_URL,
+      map,
+      loaded,
+      reload: load,
+      adminPassword,
+      isAdmin: !!adminPassword,
+      loginAdmin,
+      logoutAdmin,
+    }),
+    [map, loaded, adminPassword],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

@@ -14,7 +14,7 @@ def _cors():
     return {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, X-User-Email',
+        'Access-Control-Allow-Headers': 'Content-Type, X-User-Email, X-Admin-Password',
         'Access-Control-Max-Age': '86400',
     }
 
@@ -23,11 +23,12 @@ def _esc(v: str) -> str:
     return (v or '').replace("'", "''")
 
 
-def _is_admin(cur, email: str) -> bool:
-    if not email:
+def _check_password(headers: dict) -> bool:
+    expected = (os.environ.get('ADMIN_PASSWORD') or '').strip()
+    if not expected:
         return False
-    cur.execute(f"SELECT 1 FROM {SCHEMA}.admin_emails WHERE email = '{_esc(email)}' LIMIT 1")
-    return cur.fetchone() is not None
+    given = (headers.get('X-Admin-Password') or headers.get('x-admin-password') or '').strip()
+    return bool(given) and given == expected
 
 
 def handler(event: dict, context) -> dict:
@@ -44,7 +45,17 @@ def handler(event: dict, context) -> dict:
         return {'statusCode': 200, 'headers': cors, 'body': ''}
 
     headers = event.get('headers') or {}
-    user_email = (headers.get('X-User-Email') or headers.get('x-user-email') or '').strip().lower()
+
+    qs = event.get('queryStringParameters') or {}
+    action = (qs.get('action') or '').strip().lower()
+
+    if method == 'POST' and action == 'login':
+        ok = _check_password(headers)
+        return {
+            'statusCode': 200 if ok else 401,
+            'headers': {**cors, 'Content-Type': 'application/json'},
+            'body': json.dumps({'ok': ok, 'error': None if ok else 'Неверный пароль'}, ensure_ascii=False),
+        }
 
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
     conn.autocommit = True
@@ -74,11 +85,11 @@ def handler(event: dict, context) -> dict:
             }
 
         if method == 'PUT':
-            if not _is_admin(cur, user_email):
+            if not _check_password(headers):
                 return {
-                    'statusCode': 403,
+                    'statusCode': 401,
                     'headers': {**cors, 'Content-Type': 'application/json'},
-                    'body': json.dumps({'error': 'Нет доступа'}, ensure_ascii=False),
+                    'body': json.dumps({'error': 'Неверный пароль'}, ensure_ascii=False),
                 }
             try:
                 body = json.loads(event.get('body') or '{}')
@@ -120,11 +131,11 @@ def handler(event: dict, context) -> dict:
             }
 
         if method == 'POST':
-            if not _is_admin(cur, user_email):
+            if not _check_password(headers):
                 return {
-                    'statusCode': 403,
+                    'statusCode': 401,
                     'headers': {**cors, 'Content-Type': 'application/json'},
-                    'body': json.dumps({'error': 'Нет доступа'}, ensure_ascii=False),
+                    'body': json.dumps({'error': 'Неверный пароль'}, ensure_ascii=False),
                 }
             try:
                 body = json.loads(event.get('body') or '{}')

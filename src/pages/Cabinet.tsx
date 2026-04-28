@@ -5,6 +5,7 @@ import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import func2url from '../../backend/func2url.json';
 import ContentEditor from '@/content/ContentEditor';
+import { useContentCtx } from '@/content/ContentContext';
 
 const CABINET_URL = (func2url as Record<string, string>)['cabinet'];
 const LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
@@ -214,9 +215,28 @@ const Cabinet = () => {
 };
 
 const CabinetView = ({ data }: { data: CabinetData }) => {
-  const { participant, goal_km, goal_progress_pct, next_target, surveys_count, transactions, levels, is_admin } = data;
+  const { participant, goal_km, goal_progress_pct, next_target, surveys_count, transactions, levels } = data;
   const displayName = participant.name || participant.email.split('@')[0];
-  const [tab, setTab] = useState<'cabinet' | 'content'>('cabinet');
+  const [tab, setTab] = useState<'cabinet' | 'content' | 'admin-login'>('cabinet');
+  const { isAdmin, loginAdmin } = useContentCtx();
+  const { toast } = useToast();
+  const [adminPwd, setAdminPwd] = useState('');
+  const [adminBusy, setAdminBusy] = useState(false);
+
+  const submitAdmin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!adminPwd) return;
+    setAdminBusy(true);
+    const r = await loginAdmin(adminPwd);
+    setAdminBusy(false);
+    if (r.ok) {
+      setAdminPwd('');
+      setTab('content');
+      toast({ title: 'Добро пожаловать в админку' });
+    } else {
+      toast({ title: r.error || 'Неверный пароль', variant: 'destructive' });
+    }
+  };
 
   const currentLevelIdx = levels.findIndex(l => l.code === participant.level);
 
@@ -240,34 +260,87 @@ const CabinetView = ({ data }: { data: CabinetData }) => {
     { label: 'Сложные задания',           val: '1–5 КМ',     icon: 'Target',         done: false },
   ];
 
-  if (is_admin && tab === 'content') {
+  const adminBar = (
+    <div className="flex items-center gap-2 flex-wrap">
+      <button
+        onClick={() => setTab('cabinet')}
+        className={`px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border transition ${
+          tab === 'cabinet'
+            ? 'bg-[hsl(var(--neon))]/15 border-[hsl(var(--neon))]/40 text-ink'
+            : 'bg-white/[0.03] border-white/10 text-haze/70 hover:text-ink'
+        }`}
+      >
+        Кабинет
+      </button>
+      {isAdmin ? (
+        <button
+          onClick={() => setTab('content')}
+          className={`px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border transition ${
+            tab === 'content'
+              ? 'bg-[hsl(var(--neon))]/15 border-[hsl(var(--neon))]/40 text-ink'
+              : 'bg-white/[0.03] border-white/10 text-haze/70 hover:text-ink'
+          }`}
+        >
+          Контент сайта
+        </button>
+      ) : (
+        <button
+          onClick={() => setTab('admin-login')}
+          className={`px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border transition ${
+            tab === 'admin-login'
+              ? 'bg-[hsl(var(--neon))]/15 border-[hsl(var(--neon))]/40 text-ink'
+              : 'bg-white/[0.03] border-white/10 text-haze/60 hover:text-ink'
+          }`}
+        >
+          <Icon name="Lock" size={12} className="inline mr-2 -mt-0.5" />
+          Войти как админ
+        </button>
+      )}
+    </div>
+  );
+
+  if (tab === 'content' && isAdmin) {
     return (
       <div className="space-y-6 animate-fade-up">
-        <div className="flex items-center gap-2 flex-wrap">
-          <button onClick={() => setTab('cabinet')} className="px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border bg-white/[0.03] border-white/10 text-haze/70 hover:text-ink transition">
-            Кабинет
-          </button>
-          <button onClick={() => setTab('content')} className="px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border bg-[hsl(var(--neon))]/15 border-[hsl(var(--neon))]/40 text-ink transition">
-            Контент сайта
-          </button>
-        </div>
-        <ContentEditor adminEmail={participant.email} />
+        {adminBar}
+        <ContentEditor />
+      </div>
+    );
+  }
+
+  if (tab === 'admin-login' && !isAdmin) {
+    return (
+      <div className="space-y-6 animate-fade-up">
+        {adminBar}
+        <form
+          onSubmit={submitAdmin}
+          className="max-w-md glass rim rounded-3xl p-6 lg:p-8 border border-white/10"
+        >
+          <div className="text-xs tracking-[0.22em] text-neon uppercase mb-2">Админка контента</div>
+          <h2 className="display text-2xl md:text-3xl mb-3">Введи пароль</h2>
+          <p className="text-haze/70 text-sm mb-6">
+            Доступ к редактору текстов сайта. Пароль выдаётся владельцу проекта.
+          </p>
+          <input
+            type="password"
+            autoFocus
+            value={adminPwd}
+            onChange={e => setAdminPwd(e.target.value)}
+            placeholder="••••••••"
+            className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-3 py-3 text-ink placeholder-haze/40 focus:border-[hsl(var(--neon))]/50 focus:outline-none text-sm mb-4"
+          />
+          <Button type="submit" disabled={adminBusy || !adminPwd} className="btn-neon h-11 rounded-md text-[12px] px-5 w-full">
+            {adminBusy ? 'Проверяю…' : 'Войти'}
+            {!adminBusy && <Icon name="ArrowRight" size={14} className="ml-2" />}
+          </Button>
+        </form>
       </div>
     );
   }
 
   return (
     <div className="space-y-6 animate-fade-up">
-      {is_admin && (
-        <div className="flex items-center gap-2 flex-wrap">
-          <button onClick={() => setTab('cabinet')} className="px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border bg-[hsl(var(--neon))]/15 border-[hsl(var(--neon))]/40 text-ink transition">
-            Кабинет
-          </button>
-          <button onClick={() => setTab('content')} className="px-4 py-2 rounded-md text-[12px] tracking-[0.16em] uppercase border bg-white/[0.03] border-white/10 text-haze/70 hover:text-ink transition">
-            Контент сайта
-          </button>
-        </div>
-      )}
+      {adminBar}
       {/* PROFILE HEADER */}
       <div className="flex flex-wrap items-center justify-between gap-6">
         <div>

@@ -9,11 +9,18 @@
       "bodyMatcher": "partial"
     },
     {
-      "name": "PUT without admin email forbidden",
+      "name": "PUT without password rejected",
       "method": "PUT",
       "path": "/",
       "body": {"updates": [{"page": "index", "section": "hero", "key": "title", "value": "x"}]},
-      "expectedStatus": 403,
+      "expectedStatus": 401,
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Login without password rejected",
+      "method": "POST",
+      "path": "/?action=login",
+      "expectedStatus": 401,
       "bodyMatcher": "partial"
     },
     {

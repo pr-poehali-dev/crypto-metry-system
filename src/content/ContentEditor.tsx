@@ -9,9 +9,9 @@ type DraftMap = Record<string, string>;
 
 const k = (page: string, section: string, key: string) => `${page}.${section}.${key}`;
 
-const ContentEditor = ({ adminEmail }: { adminEmail: string }) => {
+const ContentEditor = () => {
   const { toast } = useToast();
-  const { url, map, reload } = useContentCtx();
+  const { url, map, reload, adminPassword, logoutAdmin } = useContentCtx();
 
   const [draft, setDraft] = useState<DraftMap>({});
   const [openPage, setOpenPage] = useState<string>(CONTENT_SCHEMA[0]?.id || '');
@@ -65,10 +65,15 @@ const ContentEditor = ({ adminEmail }: { adminEmail: string }) => {
       }));
       const res = await fetch(url, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-User-Email': adminEmail },
+        headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
         body: JSON.stringify({ updates }),
       });
       const json = await res.json();
+      if (res.status === 401) {
+        toast({ title: 'Сессия истекла', description: 'Войди заново как админ', variant: 'destructive' });
+        logoutAdmin();
+        return;
+      }
       if (!res.ok || !json.ok) {
         toast({ title: 'Ошибка сохранения', description: json.error || '', variant: 'destructive' });
         return;
@@ -101,6 +106,10 @@ const ContentEditor = ({ adminEmail }: { adminEmail: string }) => {
           <Button onClick={save} disabled={saving || dirtyKeys.length === 0} className="btn-neon h-11 rounded-md text-[12px] px-5">
             {saving ? 'Сохраняю…' : 'Сохранить'}
             {!saving && <Icon name="Save" size={14} className="ml-2" />}
+          </Button>
+          <Button onClick={logoutAdmin} variant="ghost" className="h-11 rounded-md text-[12px] px-4 border border-white/10 hover:bg-white/5">
+            <Icon name="LogOut" size={14} className="mr-2" />
+            Выйти
           </Button>
         </div>
       </div>
