@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { useReveal } from '@/hooks/useReveal';
-import { useContent } from '@/content/ContentContext';
+import { useContentSection } from '@/content/ContentContext';
 
 const LOGO = 'https://cdn.poehali.dev/projects/b7c1e63c-11b6-4625-a266-770a5b28551a/bucket/e42b3898-d2ef-44ff-b94f-465207ab3b2c.png';
 
@@ -63,15 +63,15 @@ export default function Index() {
   const [scrolled, setScrolled] = useState(false);
   useReveal();
 
-  const heroChip = useContent('index', 'hero', 'chip', 'Майнинг метров · Запуск · Май 2026');
-  const heroTitle1 = useContent('index', 'hero', 'title_1', 'Майним');
-  const heroTitle2 = useContent('index', 'hero', 'title_2', 'недвижимость');
-  const heroCtaPrimary = useContent('index', 'hero', 'cta_primary', 'Получить КМ');
-  const heroCtaSecondary = useContent('index', 'hero', 'cta_secondary', 'Что это такое');
-  const ideaKicker = useContent('index', 'idea', 'kicker', 'Манифест · 01');
-  const howKicker = useContent('index', 'how', 'kicker', 'Как это работает · 08');
-  const howTitle1 = useContent('index', 'how', 'title_1', 'Шесть шагов');
-  const howTitle2 = useContent('index', 'how', 'title_2', 'к своему жилью.');
+  const t_hero = useContentSection('index', 'hero');
+  const t_idea = useContentSection('index', 'idea');
+  const t_system = useContentSection('index', 'system');
+  const t_you = useContentSection('index', 'you');
+  const t_money = useContentSection('index', 'money');
+  const t_mining = useContentSection('index', 'mining');
+  const t_accred = useContentSection('index', 'accreditation');
+  const t_how = useContentSection('index', 'how');
+  const t_cta = useContentSection('index', 'cta');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -167,14 +167,14 @@ export default function Index() {
           <div className="animate-fade-up">
             <span className="chip mb-8">
               <span className="chip-dot" />
-              {heroChip}
+              {t_hero('chip', 'Майнинг метров · Запуск · Май 2026')}
             </span>
           </div>
 
           <h1 className="display text-[13vw] sm:text-[10vw] lg:text-[8.5rem] xl:text-[10rem] max-w-[1100px] leading-[0.88] animate-fade-up-1">
-            <span className="neon-grad">{heroTitle1}</span>
+            <span className="neon-grad">{t_hero('title_1', 'Майним')}</span>
             <span className="block display-italic text-neon mt-[-0.04em]" style={{ textShadow: '0 0 60px hsla(164,95%,62%,0.35)' }}>
-              {heroTitle2}
+              {t_hero('title_2', 'недвижимость')}
             </span>
           </h1>
 
@@ -190,12 +190,12 @@ export default function Index() {
 
           <div className="mt-10 flex flex-wrap gap-4 animate-fade-up-3">
             <Button size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md" onClick={() => scroll('join')}>
-              {heroCtaPrimary}
+              {t_hero('cta_primary', 'Получить КМ')}
               <Icon name="ArrowUpRight" size={18} className="ml-2" />
             </Button>
             <Button size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md" onClick={() => scroll('idea')}>
               <Icon name="Play" size={15} className="mr-2" />
-              {heroCtaSecondary}
+              {t_hero('cta_secondary', 'Что это такое')}
             </Button>
           </div>
         </div>
@@ -204,10 +204,10 @@ export default function Index() {
         <div className="absolute bottom-0 inset-x-0 z-10 border-t border-[hsla(164,95%,62%,0.22)] glass-strong">
           <div className="max-w-[1500px] mx-auto px-6 lg:px-10 py-6 grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
             {[
-              { val: 'до −30%', sub: 'ниже рынка',       icon: 'TrendingDown' },
-              { val: '24/7',    sub: 'деньги на ладони', icon: 'Eye' },
-              { val: '0%',      sub: 'рассрочка 20 лет', icon: 'Unlock' },
-              { val: '100%',    sub: 'аккредитованы',    icon: 'ShieldCheck' },
+              { val: 'до −30%', sub: t_hero('stat_1_label', 'ниже рынка'),       icon: 'TrendingDown' },
+              { val: '24/7',    sub: t_hero('stat_2_label', 'деньги на ладони'), icon: 'Eye' },
+              { val: '0%',      sub: t_hero('stat_3_label', 'рассрочка 20 лет'), icon: 'Unlock' },
+              { val: '100%',    sub: t_hero('stat_4_label', 'аккредитованы'),    icon: 'ShieldCheck' },
             ].map(s => (
               <div key={s.val} className="px-4 sm:px-6 flex items-center gap-3 sm:gap-4">
                 <div className="w-11 h-11 rounded-full bg-[hsl(var(--neon))]/10 flex items-center justify-center shrink-0 border border-[hsl(var(--neon))]/40" style={{ boxShadow: '0 0 24px hsla(164,95%,62%,0.22)' }}>
@@ -233,7 +233,7 @@ export default function Index() {
         <div className="relative max-w-[1500px] mx-auto">
           <div className="grid lg:grid-cols-12 gap-10 items-end mb-20 reveal">
             <div className="lg:col-span-7">
-              <p className="kicker mb-6">{ideaKicker}</p>
+              <p className="kicker mb-6">{t_idea('kicker', 'Манифест · 01')}</p>
               <h2 className="display text-5xl sm:text-6xl lg:text-[6.5rem] text-ink">
                 Когда обычная квартира<br />
                 <span className="display-italic text-neon">слишком дорогая</span>, — появляется <span className="italic-accent" style={{ fontWeight: 400 }}>другая модель</span>.
@@ -241,9 +241,8 @@ export default function Index() {
             </div>
             <div className="lg:col-span-4 lg:col-start-9">
               <div className="hairline mb-6" />
-              <p className="text-haze/80 text-lg leading-relaxed">
-                Ты платишь не только за бетон и стены. В цену зашиты чужие кредиты, реклама, риски и жирная наценка.
-                КриптоМетры разворачивают логику — не покупать в конце по полной. <span className="text-ink">А входить раньше.</span>
+              <p className="text-haze/80 text-lg leading-relaxed whitespace-pre-line">
+                {t_idea('desc', 'Ты платишь не только за бетон и стены. В цену зашиты чужие кредиты, реклама, риски и жирная наценка. КриптоМетры разворачивают логику — не покупать в конце по полной. А входить раньше.')}
               </p>
             </div>
           </div>
@@ -299,12 +298,12 @@ export default function Index() {
         <div className="relative max-w-[1500px] mx-auto">
 
           <div className="text-center mb-24 reveal">
-            <p className="kicker mb-6">Ключевая идея · 02</p>
+            <p className="kicker mb-6">{t_you('kicker', 'Ключевая идея · 02')}</p>
             <h2 className="display text-[14vw] lg:text-[11rem] leading-[0.88] neon-grad">
-              Вы не дольщик.
+              {t_you('title_1', 'Вы не дольщик.')}
             </h2>
             <h2 className="display-italic text-[14vw] lg:text-[11rem] leading-[0.88] text-neon mt-1" style={{ textShadow: '0 0 80px hsla(164,95%,62%,0.3)' }}>
-              Вы — заказчик.
+              {t_you('title_2', 'Вы — заказчик.')}
             </h2>
             <p className="text-haze/70 text-xl max-w-2xl mx-auto mt-8 leading-relaxed">
               Дольщику продают то, что уже решили без него.
@@ -401,16 +400,15 @@ export default function Index() {
         <div className="relative max-w-[1500px] mx-auto">
           <div className="grid lg:grid-cols-12 gap-10 mb-20 reveal">
             <div className="lg:col-span-7">
-              <p className="kicker mb-6">Архитектура системы · 03</p>
+              <p className="kicker mb-6">{t_system('kicker', 'Архитектура системы · 03')}</p>
               <h2 className="display text-5xl sm:text-6xl lg:text-[7rem] text-ink">
-                Как по-старинке.<br />
-                <span className="display-italic text-neon">Только с технологиями.</span>
+                {t_system('title_1', 'Как по-старинке.')}<br />
+                <span className="display-italic text-neon">{t_system('title_2', 'Только с технологиями.')}</span>
               </h2>
             </div>
             <div className="lg:col-span-4 lg:col-start-9 flex items-end">
-              <p className="text-lg text-haze/75 leading-relaxed">
-                Земля, профессиональный девелопер, прозрачные финансы и люди, которые заказывают —
-                а не покупают. Четыре элемента, связанные в единый контур.
+              <p className="text-lg text-haze/75 leading-relaxed whitespace-pre-line">
+                {t_system('desc', 'Земля, профессиональный девелопер, прозрачные финансы и люди, которые заказывают — а не покупают. Четыре элемента, связанные в единый контур.')}
               </p>
             </div>
           </div>
@@ -673,15 +671,22 @@ export default function Index() {
               <img src={IMG.village} alt="Коттеджный посёлок" className="absolute inset-0 w-full h-full object-cover opacity-75" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#131313] via-[#131313]/60 to-transparent" />
               <div className="relative z-10 p-10 h-full flex flex-col justify-end text-ink">
-                <p className="kicker mb-5">Отбор · 06</p>
+                <p className="kicker mb-5">{t_accred('kicker', 'Отбор · 06')}</p>
                 <h3 className="display text-4xl lg:text-[3.8rem] mb-6">
-                  Строят только те,<br /><span className="display-italic text-neon">кто прошёл отбор.</span>
+                  {t_accred('title_1', 'Строят только те,')}<br /><span className="display-italic text-neon">{t_accred('title_2', 'кто прошёл отбор.')}</span>
                 </h3>
-                <p className="text-haze/85 mb-6 max-w-lg">
-                  В систему допускаются только аккредитованные девелоперы и подрядчики с репутацией.
+                <p className="text-haze/85 mb-6 max-w-lg whitespace-pre-line">
+                  {t_accred('desc', 'В систему допускаются только аккредитованные девелоперы и подрядчики с репутацией.')}
                 </p>
                 <div className="grid grid-cols-2 gap-3 max-w-lg">
-                  {['Опыт и объекты', 'Репутация', 'Прозрачные сметы', 'Открытый контур', 'Цифровой контроль', 'Ответственность'].map(item => (
+                  {[
+                    t_accred('criteria_1', 'Опыт и объекты'),
+                    t_accred('criteria_2', 'Репутация'),
+                    t_accred('criteria_3', 'Прозрачные сметы'),
+                    t_accred('criteria_4', 'Открытый контур'),
+                    t_accred('criteria_5', 'Цифровой контроль'),
+                    t_accred('criteria_6', 'Ответственность'),
+                  ].map(item => (
                     <div key={item} className="flex items-center gap-2 text-sm text-ink/90">
                       <Icon name="Check" size={14} className="text-neon shrink-0" />
                       {item}
@@ -725,10 +730,10 @@ export default function Index() {
           {/* money heading */}
           <div className="grid lg:grid-cols-12 gap-10 mb-16 reveal">
             <div className="lg:col-span-6">
-              <p className="kicker mb-6">Финансы · 07</p>
+              <p className="kicker mb-6">{t_money('kicker', 'Финансы · 07')}</p>
               <h2 className="display text-5xl sm:text-6xl lg:text-[7rem] text-ink">
-                Без ипотечной<br />
-                <span className="display-italic text-neon">кабалы.</span>
+                {t_money('title_1', 'Без ипотечной')}<br />
+                <span className="display-italic text-neon">{t_money('title_2', 'кабалы.')}</span>
               </h2>
             </div>
             <div className="lg:col-span-5 lg:col-start-8 flex items-end">
@@ -756,10 +761,10 @@ export default function Index() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
-              { icon: 'Calendar',  label: 'Рассрочка',     sub: 'Беспроцентная до 20 лет' },
-              { icon: 'PiggyBank', label: 'Накопительная', sub: 'Программа без переплат' },
-              { icon: 'Handshake', label: 'Субсидии',      sub: 'Коммерческие от партнёров' },
-              { icon: 'Layers',    label: 'Криптотека',    sub: 'Новый инструмент входа' },
+              { icon: 'Calendar',  label: t_money('tool_1_label', 'Рассрочка'),     sub: t_money('tool_1_desc', 'Беспроцентная до 20 лет') },
+              { icon: 'PiggyBank', label: t_money('tool_2_label', 'Накопительная'), sub: t_money('tool_2_desc', 'Программа без переплат') },
+              { icon: 'Handshake', label: t_money('tool_3_label', 'Субсидии'),      sub: t_money('tool_3_desc', 'Коммерческие от партнёров') },
+              { icon: 'Layers',    label: t_money('tool_4_label', 'Криптотека'),    sub: t_money('tool_4_desc', 'Новый инструмент входа') },
             ].map((c, i) => (
               <div key={c.label} className="glass rim rim-hover rounded-3xl p-8 reveal" style={{ transitionDelay: `${i * 100}ms` }}>
                 <div className="w-14 h-14 bg-[hsl(var(--neon))]/10 rounded-2xl flex items-center justify-center mb-6 border border-[hsl(var(--neon))]/30" style={{ boxShadow: '0 0 24px hsla(168,100%,50%,0.2)' }}>
@@ -781,7 +786,7 @@ export default function Index() {
         <div className="relative max-w-[1500px] mx-auto">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end mb-12">
             <div className="lg:col-span-7 reveal">
-              <p className="kicker mb-5">Программа участия · Новый раздел</p>
+              <p className="kicker mb-5">{t_mining('kicker', 'Программа участия · Новый раздел')}</p>
               <h2 className="display text-5xl sm:text-6xl lg:text-[7.5rem] leading-[0.9]">
                 Майнинг<br />
                 <span className="display-italic text-neon" style={{ textShadow: '0 0 60px hsla(164,95%,62%,0.35)' }}>квартиры.</span>
@@ -827,14 +832,14 @@ export default function Index() {
           <div className="flex flex-wrap gap-4 reveal">
             <Link to="/mining-kvartiry">
               <Button size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
-                Перейти на страницу майнинга
+                {t_mining('cta_primary', 'Перейти на страницу майнинга')}
                 <Icon name="ArrowUpRight" size={18} className="ml-2" />
               </Button>
             </Link>
             <Link to="/mining-kvartiry">
               <Button size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md">
                 <Icon name="Pickaxe" size={16} className="mr-2" fallback="Hammer" />
-                Начать майнить
+                {t_mining('cta_secondary', 'Начать майнить')}
               </Button>
             </Link>
           </div>
@@ -851,14 +856,13 @@ export default function Index() {
 
         <div className="relative max-w-[1200px] mx-auto">
           <div className="mb-20 max-w-3xl reveal">
-            <p className="kicker mb-6">{howKicker}</p>
+            <p className="kicker mb-6">{t_how('kicker', 'Как это работает · 08')}</p>
             <h2 className="display text-5xl sm:text-6xl lg:text-[7rem] mb-6 text-ink">
-              {howTitle1}<br />
-              <span className="display-italic text-neon">{howTitle2}</span>
+              {t_how('title_1', 'Шесть шагов')}<br />
+              <span className="display-italic text-neon">{t_how('title_2', 'к своему жилью.')}</span>
             </h2>
-            <p className="text-lg text-haze/75 leading-relaxed">
-              Скидываемся. Покупаем землю. Нанимаем девелопера. Контролируем стройку.
-              Принимаем результат. Живём.
+            <p className="text-lg text-haze/75 leading-relaxed whitespace-pre-line">
+              {t_how('desc', 'Скидываемся. Покупаем землю. Нанимаем девелопера. Контролируем стройку. Принимаем результат. Живём.')}
             </p>
           </div>
 
@@ -974,10 +978,10 @@ export default function Index() {
           </span>
 
           <h2 className="display text-6xl sm:text-8xl lg:text-[11rem] mb-6 neon-grad">
-            Войди в систему
+            {t_cta('title_1', 'Войди в систему')}
           </h2>
           <h2 className="display-italic text-6xl sm:text-8xl lg:text-[11rem] mb-10 text-neon" style={{ textShadow: '0 0 80px hsla(168,100%,50%,0.4)' }}>
-            раньше рынка.
+            {t_cta('title_2', 'раньше рынка.')}
           </h2>
 
           <p className="text-haze/85 text-xl max-w-2xl mx-auto leading-relaxed mb-12">
@@ -987,11 +991,11 @@ export default function Index() {
 
           <div className="flex flex-wrap justify-center gap-4 mb-10">
             <Button size="lg" className="btn-neon text-[13px] px-12 h-16 rounded-md">
-              Получить КМ
+              {t_cta('cta_primary', 'Получить КМ')}
               <Icon name="ArrowUpRight" size={18} className="ml-2" />
             </Button>
             <Button size="lg" className="btn-ghost text-[13px] px-12 h-16 rounded-md">
-              Написать нам
+              {t_cta('cta_secondary', 'Написать нам')}
             </Button>
           </div>
 

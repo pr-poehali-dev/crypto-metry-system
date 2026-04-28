@@ -68,6 +68,14 @@ export const useContent = (page: string, section: string, key: string, fallback:
   return v && v.length > 0 ? v : fallback;
 };
 
+export const useContentSection = (page: string, section: string) => {
+  const { map } = useContext(Ctx);
+  return (key: string, fallback: string): string => {
+    const v = map[buildKey(page, section, key)];
+    return v && v.length > 0 ? v : fallback;
+  };
+};
+
 export const useContentCtx = () => useContext(Ctx);
 
 export default ContentProvider;

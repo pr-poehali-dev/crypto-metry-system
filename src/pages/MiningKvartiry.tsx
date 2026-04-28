@@ -5,7 +5,7 @@ import Icon from '@/components/ui/icon';
 import { useReveal } from '@/hooks/useReveal';
 import { useToast } from '@/hooks/use-toast';
 import func2url from '../../backend/func2url.json';
-import { useContent } from '@/content/ContentContext';
+import { useContentSection } from '@/content/ContentContext';
 
 const SURVEY_URL = (func2url as Record<string, string>)['apartment-survey'];
 
@@ -51,13 +51,12 @@ const MiningKvartiry = () => {
   useReveal();
   const { toast } = useToast();
 
-  const heroChip = useContent('mining', 'hero', 'chip', 'Экосистема КриптоМетр · Программа участия');
-  const heroTitle1 = useContent('mining', 'hero', 'title_1', 'Майнинг');
-  const heroTitle2 = useContent('mining', 'hero', 'title_2', 'квартиры');
-  const heroCta = useContent('mining', 'hero', 'cta_primary', 'Начать майнить');
-  const finalTitle1 = useContent('mining', 'final', 'title_1', 'Начните майнить');
-  const finalTitle2 = useContent('mining', 'final', 'title_2', 'свою квартиру');
-  const finalTitle3 = useContent('mining', 'final', 'title_3', 'уже сегодня.');
+  const t_hero = useContentSection('mining', 'hero');
+  const t_how = useContentSection('mining', 'how');
+  const t_tasks = useContentSection('mining', 'tasks');
+  const t_levels = useContentSection('mining', 'levels');
+  const t_contour = useContentSection('mining', 'contour');
+  const t_final = useContentSection('mining', 'final');
   const [open, setOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [form, setForm] = useState<SurveyForm>(EMPTY_FORM);
@@ -107,10 +106,10 @@ const MiningKvartiry = () => {
   };
 
   const tasks = [
-    { label: 'Регистрация',                  val: 'до 0,10 КМ', icon: 'UserPlus' },
-    { label: 'Подробная анкета',             val: 'до 0,25 КМ', icon: 'ClipboardList' },
-    { label: 'Полный диалог с системой',     val: 'до 0,25 КМ', icon: 'MessagesSquare' },
-    { label: 'Подписка на канал',            val: '0,01 КМ',    icon: 'Send' },
+    { label: t_tasks('task_1_label', 'Регистрация'),              val: t_tasks('task_1_value', 'до 0,10 КМ'), icon: 'UserPlus' },
+    { label: t_tasks('task_2_label', 'Подробная анкета'),         val: t_tasks('task_2_value', 'до 0,25 КМ'), icon: 'ClipboardList' },
+    { label: t_tasks('task_3_label', 'Полный диалог с системой'), val: t_tasks('task_3_value', 'до 0,25 КМ'), icon: 'MessagesSquare' },
+    { label: t_tasks('task_4_label', 'Подписка на канал'),        val: t_tasks('task_4_value', '0,01 КМ'),    icon: 'Send' },
     { label: 'Тест от застройщика',          val: '0,10–0,30 КМ', icon: 'Building2' },
     { label: 'Фидбек',                       val: '0,10–0,20 КМ', icon: 'MessageCircle' },
     { label: 'Кастдев',                      val: '0,50–1,00 КМ', icon: 'Headphones' },
@@ -119,11 +118,11 @@ const MiningKvartiry = () => {
   ];
 
   const levels = [
-    { r: '0–1 КМ',     name: 'Старт',                  desc: 'Первые шаги в системе',           pct: 5 },
-    { r: '1–10 КМ',    name: 'Профиль спроса',         desc: 'Система узнаёт тебя',             pct: 20 },
-    { r: '10–25 КМ',   name: 'Подтверждённый участник', desc: 'Твой вклад виден',               pct: 40 },
-    { r: '25–100 КМ',  name: 'Ядро спроса',            desc: 'Формируешь будущие проекты',      pct: 70 },
-    { r: '100+ КМ',    name: 'Следующий контур',       desc: 'Право перейти дальше',            pct: 100 },
+    { r: '0–1 КМ',     name: t_levels('level_1_name', 'Старт'),                   desc: t_levels('level_1_desc', 'Первые шаги в системе'),     pct: 5 },
+    { r: '1–10 КМ',    name: t_levels('level_2_name', 'Профиль спроса'),          desc: t_levels('level_2_desc', 'Система узнаёт тебя'),         pct: 20 },
+    { r: '10–25 КМ',   name: t_levels('level_3_name', 'Подтверждённый участник'), desc: t_levels('level_3_desc', 'Твой вклад виден'),            pct: 40 },
+    { r: '25–100 КМ',  name: t_levels('level_4_name', 'Ядро спроса'),             desc: t_levels('level_4_desc', 'Формируешь будущие проекты'),  pct: 70 },
+    { r: '100+ КМ',    name: t_levels('level_5_name', 'Следующий контур'),        desc: t_levels('level_5_desc', 'Право перейти дальше'),         pct: 100 },
   ];
 
   const howSteps = [
@@ -219,21 +218,20 @@ const MiningKvartiry = () => {
         <div className="relative z-10 max-w-[1500px] w-full mx-auto">
           <span className="chip mb-8 animate-fade-up">
             <span className="chip-dot" />
-            {heroChip}
+            {t_hero('chip', 'Экосистема КриптоМетр · Программа участия')}
           </span>
 
           <h1 className="display text-[12vw] sm:text-[9vw] lg:text-[8rem] xl:text-[9.5rem] leading-[0.88] max-w-[1200px] animate-fade-up-1">
-            <span className="neon-grad">{heroTitle1}</span>
+            <span className="neon-grad">{t_hero('title_1', 'Майнинг')}</span>
             <span className="block display-italic text-neon" style={{ textShadow: '0 0 60px hsla(164,95%,62%,0.35)' }}>
-              {heroTitle2}
+              {t_hero('title_2', 'квартиры')}
             </span>
           </h1>
 
           <div className="mt-10 max-w-2xl animate-fade-up-2">
             <div className="bar-neon mb-6" />
-            <p className="text-ink/90 text-lg lg:text-xl leading-relaxed font-light">
-              Майни свой путь к будущему жилью уже сегодня. Участие, задания, фидбек —
-              всё это конвертируется в КМ и двигает тебя к цели.
+            <p className="text-ink/90 text-lg lg:text-xl leading-relaxed font-light whitespace-pre-line">
+              {t_hero('subtitle', 'Майни свой путь к будущему жилью уже сегодня. Участие, задания, фидбек — всё это конвертируется в КМ и двигает тебя к цели.')}
             </p>
           </div>
 
@@ -252,12 +250,12 @@ const MiningKvartiry = () => {
 
           <div className="mt-10 flex flex-wrap gap-4 animate-fade-up-3">
             <Button onClick={openForm} size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
-              {heroCta}
+              {t_hero('cta_primary', 'Начать майнить')}
               <Icon name="ArrowUpRight" size={18} className="ml-2" />
             </Button>
             <Button onClick={openForm} size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md">
               <Icon name="ClipboardList" size={16} className="mr-2" />
-              Заполнить анкету квартиры
+              {t_hero('cta_secondary', 'Заполнить анкету квартиры')}
             </Button>
           </div>
         </div>
@@ -268,10 +266,10 @@ const MiningKvartiry = () => {
         <div className="orb w-[500px] h-[500px] top-0 right-0 opacity-60" />
         <div className="relative max-w-[1300px] mx-auto">
           <div className="mb-16 max-w-3xl reveal">
-            <p className="kicker mb-5">Как это работает · 01</p>
+            <p className="kicker mb-5">{t_how('kicker', 'Как это работает · 01')}</p>
             <h2 className="display text-5xl sm:text-6xl lg:text-[6rem] leading-[0.92]">
-              Три шага —<br />
-              <span className="display-italic text-neon">одна система.</span>
+              {t_how('title_1', 'Три шага —')}<br />
+              <span className="display-italic text-neon">{t_how('title_2', 'одна система.')}</span>
             </h2>
           </div>
 
@@ -345,7 +343,7 @@ const MiningKvartiry = () => {
         <div className="orb w-[500px] h-[500px] top-20 right-[-10%] opacity-50" />
         <div className="relative max-w-[1300px] mx-auto">
           <div className="mb-14 max-w-3xl reveal">
-            <p className="kicker mb-5">Начисления · 03</p>
+            <p className="kicker mb-5">{t_tasks('kicker', 'Начисления · 03')}</p>
             <h2 className="display text-5xl sm:text-6xl lg:text-[6rem] leading-[0.92]">
               За что начисляются<br />
               <span className="display-italic text-neon">КМ.</span>
@@ -383,7 +381,7 @@ const MiningKvartiry = () => {
               профиля спроса и будущего подбора проектов.
             </p>
             <Button onClick={openForm} size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
-              Заполнить анкету квартиры
+              {t_tasks('cta_primary', 'Заполнить анкету квартиры')}
               <Icon name="ArrowUpRight" size={18} className="ml-2" />
             </Button>
           </div>
@@ -406,7 +404,7 @@ const MiningKvartiry = () => {
         <div className="orb w-[500px] h-[500px] top-10 left-0 opacity-50" />
         <div className="relative max-w-[1200px] mx-auto">
           <div className="mb-14 max-w-3xl reveal">
-            <p className="kicker mb-5">Уровни пути · 05</p>
+            <p className="kicker mb-5">{t_levels('kicker', 'Уровни пути · 05')}</p>
             <h2 className="display text-5xl sm:text-6xl lg:text-[6rem] leading-[0.92]">
               Путь участника —<br />
               <span className="display-italic text-neon">от старта до контура.</span>
@@ -450,10 +448,10 @@ const MiningKvartiry = () => {
 
         <div className="relative max-w-[1200px] mx-auto">
           <div className="mb-12 max-w-3xl reveal">
-            <p className="kicker mb-5">После 100 КМ · 06</p>
+            <p className="kicker mb-5">{t_contour('kicker', 'После 100 КМ · 06')}</p>
             <h2 className="display text-5xl sm:text-6xl lg:text-[6rem] leading-[0.92]">
-              Переход<br />
-              <span className="display-italic text-neon">на следующий контур.</span>
+              {t_contour('title_1', 'Переход')}<br />
+              <span className="display-italic text-neon">{t_contour('title_2', 'на следующий контур.')}</span>
             </h2>
           </div>
 
@@ -475,8 +473,8 @@ const MiningKvartiry = () => {
               </div>
               <div className="flex-1 min-w-[260px]">
                 <div className="text-xs tracking-[0.22em] text-neon uppercase mb-3">Важное правило</div>
-                <div className="text-2xl lg:text-3xl font-bold leading-snug mb-3">
-                  Каждый намайненный КМ открывает право внести до 1 КМ целевого взноса.
+                <div className="text-2xl lg:text-3xl font-bold leading-snug mb-3 whitespace-pre-line">
+                  {t_contour('rule', 'Каждый намайненный КМ открывает право внести до 1 КМ целевого взноса.')}
                 </div>
                 <p className="text-haze/70 text-sm leading-relaxed max-w-2xl">
                   Порядок реализации этого права определяется отдельными правилами системы.
@@ -569,19 +567,19 @@ const MiningKvartiry = () => {
 
         <div className="relative max-w-[1200px] mx-auto text-center">
           <h2 className="display text-5xl sm:text-7xl lg:text-[8rem] leading-[0.9] mb-10 reveal">
-            {finalTitle1}<br />
-            <span className="display-italic text-neon" style={{ textShadow: '0 0 80px hsla(164,95%,62%,0.4)' }}>{finalTitle2}</span>
-            <span className="block mt-2">{finalTitle3}</span>
+            {t_final('title_1', 'Начните майнить')}<br />
+            <span className="display-italic text-neon" style={{ textShadow: '0 0 80px hsla(164,95%,62%,0.4)' }}>{t_final('title_2', 'свою квартиру')}</span>
+            <span className="block mt-2">{t_final('title_3', 'уже сегодня.')}</span>
           </h2>
 
           <div className="flex flex-wrap gap-4 justify-center reveal">
             <Button onClick={openForm} size="lg" className="btn-neon text-[13px] h-16 px-10 rounded-md">
-              Начать майнить
+              {t_final('cta_primary', 'Начать майнить')}
               <Icon name="ArrowUpRight" size={18} className="ml-2" />
             </Button>
             <Button onClick={openForm} size="lg" className="btn-ghost text-[13px] h-16 px-10 rounded-md">
               <Icon name="ClipboardList" size={16} className="mr-2" />
-              Заполнить анкету квартиры
+              {t_final('cta_secondary', 'Заполнить анкету квартиры')}
             </Button>
           </div>
         </div>
