@@ -1052,7 +1052,11 @@ export default function Index() {
           <div className="divider-neon mb-6" />
 
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
-            <p className="text-haze/40 text-xs mono-tech">© 2026 КриптоМетры. All rights reserved.</p>
+            <p className="text-haze/40 text-xs mono-tech">
+              © 2026 КриптоМетры. All rights reserved.
+              {' · '}
+              <Link to="/admin" className="hover:text-neon transition-colors">Админ</Link>
+            </p>
             <p className="text-haze/40 text-xs mono-tech">Система в стадии тестирования. Не является публичной офертой.</p>
           </div>
         </div>

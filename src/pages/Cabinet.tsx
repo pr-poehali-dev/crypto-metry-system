@@ -207,7 +207,11 @@ const Cabinet = () => {
             <img src={LOGO} alt="КриптоМетры" className="h-9 w-9 rounded-md" />
             <span className="font-bold">КриптоМетры</span>
           </Link>
-          <div className="text-xs text-haze/50 tracking-wider">© КриптоМетр · Народная платформа жилья</div>
+          <div className="text-xs text-haze/50 tracking-wider">
+            © КриптоМетр · Народная платформа жилья
+            {' · '}
+            <Link to="/admin" className="hover:text-neon transition-colors">Админ</Link>
+          </div>
         </div>
       </footer>
     </div>
